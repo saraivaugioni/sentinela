@@ -1,31 +1,23 @@
-Testes de Regressão Visual com Sentinela API + WebDriver
+Visual regression test with Sentinela API + WebDriver
 
-Aplicação de uma API simples que combinada com WebDriver consegue realizar testes de regressão visual de forma rápida e eficiente.
+A simple API that combined with WebDriver can perform visual regression test quickly and efficiently.
 
-Automação com WebDriver - Qualquer projeto, em qualquer modelo de desenvolvimento feito em Selenium WebDriver;
-Sentinela API - Foco do nosso trabalho, API que gera prints de tela, gerencia baseline de prints e faz comparação de resultados, Sentinela API é escrita em Java.
+Sentinela API - Gen prints from window browser, manager baseline and makes a comparison of results Sentinela API it is written in Java.
 
-Considerando um projeto de automação que já esteja com seus testes funcionais rodando, mas percebe-se a necessidade de realizar testes de regressão visuais devido a frequentes quebras de layout no sistema em produção.
-Para que esses testes sejam executados de forma isolada, a equipe dependeria de uma ferramenta específica e pessoal capacitado envolvido, o que poderia gerar mais custos ao projeto.
-A solução proposta possibilita apenas acoplar essa API visando criar um mecanismo onde as comparações visuais possam ser realizadas com facilidade e simplicidade atendendo a necessidade.
+How API work?
 
-Mas como a API funciona?
+1 - Import Sentinela API in your project.
+2 - Mark some points where Sentinela API will perform the tests.
+3 - Run your project as usual.
+4 - Every time point is reached Sentinela API comes in.
+5 - Take a print and save in your baseline.
+6 - Compares the result with another baseline. (if exists).
+7 - Gen tests results report.
 
-1 - O automatizador deve primeiramente, importar Sentinela API.<br>
-2 - O automatizador, irá marcar em seus testes alguns pontos onde a Sentinela API irá realizar seu teste;<br>
-3 - O automatizador irá executar o seu teste funcional normalmente;<br>
-4 - Cada vez que chegar no ponto marcado o Sentinela API entra em ação;<br>
-5 - Tira um print de tela e salva em sua base line;<br>
-6 - Compara o resultado com outra baseline (se existir);<br>
-7 - Gera o resultado dos testes.
+Example code java.
 
-Download:
-https://sourceforge.net/projects/sentinelaapi/
+Prepare Environment: Have webdriver and sentinela API in build path.
 
-
-Exemplo de código em java.
-
-Preparação do ambiente: ter o webdriver e a sentinela API adicionada no build path.
 
 package teste;
 
@@ -46,42 +38,36 @@ public class UseExample {
 		WebDriver driver = new FirefoxDriver();
 		
 		
-		//Mapeando os componentes pelo webdriver
-		// Google Componentes
+		//Map webdriver elements
+		//Google
 		driver.get("http://www.google.com.br");
 		WebElement logoGoogle = driver.findElement(By.id("hplogo"));
 		WebElement botaoPesquisaGoogle = driver.findElement(By.name("btnK"));
 		WebElement botaoEstouComSorte = driver.findElement(By.name("btnI"));
 		WebElement campoBuscar = driver.findElement(By.id("lst-ib"));
-		List<WebElement> elementosGoogle = driver.findElements(By.className("naoExiste"));
+		List<WebElement> elementosGoogle = driver.findElements(By.className("list"));
 		elementosGoogle.add(logoGoogle);
 		elementosGoogle.add(botaoPesquisaGoogle);
 		elementosGoogle.add(botaoEstouComSorte);
 		
 		
 		
-		//-------------------USO DA API--------------------//
+		//-------------------API USE EXAMPLE--------------------//
 		
-		// Cria uma instância da API, passando o path das imagens, o path onde o
-		// relatorio será gerado e por última a resolução que irá trabalhar.
-		Sentinela sentinela = new Sentinela(driver, "C:\\testeRegressao\\", "C:\\testeRegressao\\relatorio\\", 1920, 1080);
+		// Make API instance, set image path and gen report path
+		// and last a resolution to work.
+		Sentinela sentinela = new Sentinela(driver, "C:\\testRegression\\", "C:\\testeRegression\\report\\", 1920, 1080);
 
-		// Valida uma lista de elementos
-		sentinela.validar(elementosGoogle, "elementos_google");
+		// Validate a webelements list
+		sentinela.validate(elementosGoogle, "elementos_google");
 		
-		sentinela.validar("tela_google");
-		sentinela.validar("tela2_google");
-		sentinela.validar("tela3_google");
 		
-		// Valida uma página inteira
+		// Validate a full page
 		campoBuscar.sendKeys("teste de software");
-		sentinela.validar("tela4_google");
-		sentinela.validar("tela5_google");
-		sentinela.validar("tela6_google");
-		sentinela.validar("tela7_google");
+		sentinela.validate("screen_google");
 		
-		// Gerar o relatorio final
-		sentinela.gerarRelatorio();
+		// Gen final report
+		sentinela.generateReport();
 		driver.quit();
 	}
 }
