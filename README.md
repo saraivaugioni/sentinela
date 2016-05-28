@@ -18,7 +18,6 @@ Example code java.
 
 Prepare Environment: Have webdriver and sentinela API in build path.
 
-
 package teste;
 
 import java.util.List;
@@ -49,7 +48,6 @@ public class UseExample {
 		elementosGoogle.add(logoGoogle);
 		elementosGoogle.add(botaoPesquisaGoogle);
 		elementosGoogle.add(botaoEstouComSorte);
-		
 		
 		
 		//-------------------API USE EXAMPLE--------------------//
