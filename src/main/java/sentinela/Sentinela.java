@@ -34,6 +34,7 @@ public class Sentinela {
 	private int imgHeight;
 	private boolean isEnabledValidation = true;
 	private boolean isBaseLineCreated = false;
+	private boolean isDiff = false;
 
 	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight,
 			String baseLineName) {
@@ -182,6 +183,7 @@ public class Sentinela {
 		saveInfMetaData(validationName + ";" + imgName + ";" + comparator.getPercentualDiferencaUltimaImagem() + ";"
 				+ comparator.getQtdTotalPixelComparadosUltimaImagem() + ";"
 				+ comparator.getQtdPixelDiferentesUltimaImagem());
+		setDiff(comparator.isDiff());
 	}
 
 	public double compare(File img1, File img2) {
@@ -442,4 +444,13 @@ public class Sentinela {
 	public void setEnabledValidation(boolean isEnabledValidation) {
 		this.isEnabledValidation = isEnabledValidation;
 	}
+
+	public boolean isDiff() {
+		return isDiff;
+	}
+	
+	private void setDiff(boolean isDiff) {
+		this.isDiff = isDiff;
+	}
+	
 }

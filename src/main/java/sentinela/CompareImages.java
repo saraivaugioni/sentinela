@@ -10,6 +10,7 @@ public class CompareImages {
 	private double percentualDiferencaUltimaImagem;
 	private int qtdPixelDiferentesUltimaImagem;
 	private int qtdTotalPixelComparadosUltimaImagem;
+	private boolean isDiff=false;
 
 	// private int filterRGB(Color c1, Color c2, int rgb) {
 	// final int r1 = c1.getRed();
@@ -166,6 +167,13 @@ public class CompareImages {
 				destacarDiff(outImg, Integer.valueOf(j), Integer.valueOf(i));
 			}
 		}
+		
+		
+		// If there are diff in the images
+		if(getQtdPixelDiferentesUltimaImagem()>0){
+			setDiff(true);
+		}
+		
 		// Now return
 		return outImg;
 	}
@@ -201,4 +209,13 @@ public class CompareImages {
 	private void setQtdTotalPixelComparadosUltimaImagem(int qtdTotalPixelComparadosUltimaImagem) {
 		this.qtdTotalPixelComparadosUltimaImagem = qtdTotalPixelComparadosUltimaImagem;
 	}
+
+	public boolean isDiff() {
+		return isDiff;
+	}
+
+	private void setDiff(boolean isDiff) {
+		this.isDiff = isDiff;
+	}
+	
 }
