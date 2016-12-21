@@ -448,9 +448,8 @@ public class Sentinela {
 	public boolean isDiff() {
 		return isDiff;
 	}
-	
+
 	private void setDiff(boolean isDiff) {
 		this.isDiff = isDiff;
 	}
-	
 }
