@@ -264,12 +264,11 @@ public class Sentinela {
 		}
 		// Se não existe, cria um print novo
 		else {
-			savePrint(printWindowBrowser(), "\\" + getPathBaseLine().getFileName() + "\\" + imageName,
-					getWidthTela(), getHeightTela());
+			savePrint(printWindowBrowser(), "\\" + getPathBaseLine().getFileName() + "\\" + imageName, getWidthTela(),
+					getHeightTela());
 		}
 	}
 
-	
 	/**
 	 * Valida o layout da janela inteira Recebe como parametro o nome da
 	 * validação O método cria as imagens baseada no nome da validação
@@ -299,12 +298,11 @@ public class Sentinela {
 		}
 		// Se não existe, cria um print novo
 		else {
-			savePrint(printWindowBrowser(), "\\" + getPathBaseLine().getFileName() + "\\" + imageName,
-					getWidthTela(), getHeightTela());
+			savePrint(printWindowBrowser(), "\\" + getPathBaseLine().getFileName() + "\\" + imageName, getWidthTela(),
+					getHeightTela());
 		}
 	}
 
-	
 	/**
 	 * Validar layout de um elemento especifico Recebe como parametro um
 	 * elemento do selenium e o nome da validação. O método cria as imagens
@@ -348,8 +346,7 @@ public class Sentinela {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Validar layout de um elemento especifico Recebe como parametro um
 	 * elemento do selenium e o nome da validação. O método cria as imagens
@@ -395,8 +392,6 @@ public class Sentinela {
 		}
 	}
 
-	
-
 	/**
 	 * Validar layout de uma lista de elementos Recebe como parametro uma lista
 	 * de elementos do selenium. List<WebElement> e o nome da validação o método
@@ -419,8 +414,8 @@ public class Sentinela {
 			if (baseLineFile.exists()) {
 				// Verifica se o arquivo de comparação já existe. Se exisitr ele
 				// é removido.
-				File comparisonFile = new File(getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\comparar_"
-						+ imageName + cx + ".png");
+				File comparisonFile = new File(
+						getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\comparar_" + imageName + cx + ".png");
 				if (comparisonFile.exists()) {
 					removeFile(comparisonFile.getAbsolutePath());
 				}
@@ -438,9 +433,8 @@ public class Sentinela {
 			// original_+nomeValidacao.png
 			else {
 				try {
-					savePrint(printWebElement(element),
-							"\\" + getPathBaseLine().getFileName() + "\\" + imageName + cx, getWidthElementos(),
-							getHeightElementos());
+					savePrint(printWebElement(element), "\\" + getPathBaseLine().getFileName() + "\\" + imageName + cx,
+							getWidthElementos(), getHeightElementos());
 				} catch (IOException e) {
 					System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
 				}
@@ -472,8 +466,8 @@ public class Sentinela {
 			if (baseLineFile.exists()) {
 				// Verifica se o arquivo de comparação já existe. Se exisitr ele
 				// é removido.
-				File comparisonFile = new File(getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\comparar_"
-						+ imageName + cx + ".png");
+				File comparisonFile = new File(
+						getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\comparar_" + imageName + cx + ".png");
 				if (comparisonFile.exists()) {
 					removeFile(comparisonFile.getAbsolutePath());
 				}
@@ -491,9 +485,8 @@ public class Sentinela {
 			// original_+nomeValidacao.png
 			else {
 				try {
-					savePrint(printWebElement(element),
-							"\\" + getPathBaseLine().getFileName() + "\\" + imageName + cx, getWidthElementos(),
-							getHeightElementos());
+					savePrint(printWebElement(element), "\\" + getPathBaseLine().getFileName() + "\\" + imageName + cx,
+							getWidthElementos(), getHeightElementos());
 				} catch (IOException e) {
 					System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
 				}
@@ -501,7 +494,7 @@ public class Sentinela {
 			cx++;
 		}
 	}
-	
+
 	public Path getImgsPath() {
 		return imgsPath;
 	}
