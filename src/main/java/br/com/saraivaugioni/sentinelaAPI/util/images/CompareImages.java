@@ -1,8 +1,15 @@
-package sentinela;
+package br.com.saraivaugioni.sentinelaAPI.util.images;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import br.com.saraivaugioni.sentinelaAPI.main.Sentinela;
+import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
 
 public class CompareImages {
 
@@ -174,6 +181,46 @@ public class CompareImages {
 		// Now return
 		return outImg;
 	}
+	
+	
+	public static void compare(Sentinela sentinela, String imgName, String validationName) {
+		BufferedImage img1 = null;
+		BufferedImage img2 = null;
+		CompareImages comparator = new CompareImages();
+		try {
+			img1 = ImageIO.read(new File(sentinela.getPathBaseLine() + "\\" + imgName));
+			img2 = ImageIO.read(new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imgName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		BufferedImage outImg = comparator.getDifferenceImage(img1, img2);
+		File outputfile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\Resultados\\" + imgName);
+		try {
+			ImageIO.write(outImg, "png", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ManipulateFiles.saveInfMetaData(sentinela.getImgsPath(),sentinela.getDateTimeExecutionCurrent(),validationName + ";" + imgName + ";" + comparator.getPercentualDiferencaUltimaImagem() + ";"
+				+ comparator.getQtdTotalPixelComparadosUltimaImagem() + ";"
+				+ comparator.getQtdPixelDiferentesUltimaImagem());
+		sentinela.setDiff(comparator.isDiff());
+	}
+	
+	public static double compare(File img1, File img2) {
+		BufferedImage bfImg1 = null;
+		BufferedImage bfImg2 = null;
+		CompareImages comparator = new CompareImages();
+		try {
+			bfImg1 = ImageIO.read(img1);
+			bfImg2 = ImageIO.read(img2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		comparator.getDifferenceImage(bfImg1, bfImg2);
+		return comparator.getPercentualDiferencaUltimaImagem();
+	}
+
+
 
 	public List<String> getPixelsDiferencas() {
 		return pixelsDiferencas;

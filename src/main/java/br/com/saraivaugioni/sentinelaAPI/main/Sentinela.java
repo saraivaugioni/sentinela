@@ -1,25 +1,17 @@
-package sentinela;
+package br.com.saraivaugioni.sentinelaAPI.main;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinelaAPI.util.report.GeneratorReport;
+import br.com.saraivaugioni.sentinelaAPI.validation.Validation;
 
 public class Sentinela {
 
@@ -54,7 +46,7 @@ public class Sentinela {
 		SimpleDateFormat currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
 		// Prepara o ambiente
-		prepareEnvironment();
+		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getPathBaseLine(), getImgsPath(), getDateTimeExecutionCurrent()));
 	}
 
 	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight) {
@@ -74,85 +66,13 @@ public class Sentinela {
 		SimpleDateFormat currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
 		// Prepara o ambiente
-		prepareEnvironment();
+		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getPathBaseLine(), getImgsPath(), getDateTimeExecutionCurrent()));
 	}
 
 	public Sentinela() {
 		setEnabledValidation(false);
 	}
 
-	private void savePrint(File tempFilePrintSelenium, String finalPrintName, int width, int height) {
-		String fileName = getImgsPath().toString() + finalPrintName + ".png";
-		// Cria a imagem no disco.
-		try {
-			FileUtils.copyFile(tempFilePrintSelenium, new File(fileName), false);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		// Alterar resolução da imagem.
-		// Change image resolution
-		BufferedImage img = new ImgUtils().scaleImage(width, height, fileName);
-		File filePrintNewResolution = new File(fileName);
-		try {
-			ImageIO.write(img, "png", filePrintNewResolution);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Janela completa
-	// Full window(browser)
-	private File printWindowBrowser() {
-		File scrFile = ((TakesScreenshot) getDriverSelenium()).getScreenshotAs(OutputType.FILE);
-		return scrFile;
-	}
-
-	// Elemento especifico
-	// print only a WebElement
-	private File printWebElement(WebElement element) throws IOException {
-		File scrFile = ((TakesScreenshot) getDriverSelenium()).getScreenshotAs(OutputType.FILE);
-		Point p = element.getLocation();
-		int width = element.getSize().getWidth();
-		int height = element.getSize().getHeight();
-		BufferedImage img = null;
-		BufferedImage dest = null;
-		img = ImageIO.read(scrFile);
-		if (element.isDisplayed()) {
-			dest = img.getSubimage(p.getX(), p.getY(), width, height);
-		} else {
-			dest = img.getSubimage(0, 0, 1, 1);
-		}
-		ImageIO.write(dest, "png", scrFile);
-		return scrFile;
-	}
-
-	private void saveHeadMetaData(String head) {
-		BufferedWriter out = null;
-		try {
-			FileWriter fstream = new FileWriter(
-					getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\Resultados\\metadados.ini", true);
-			out = new BufferedWriter(fstream);
-			out.write(head + "\n");
-			out.close();
-			fstream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void saveInfMetaData(String inf) {
-		BufferedWriter out = null;
-		try {
-			FileWriter fstream = new FileWriter(
-					getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\Resultados\\metadados.ini", true);
-			out = new BufferedWriter(fstream);
-			out.write(inf + "\n");
-			out.close();
-			fstream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public void generateReport() {
 		if (!isValidacaoAtivada()) {
@@ -163,78 +83,6 @@ public class Sentinela {
 		}
 	}
 
-	private void compare(String imgName, String validationName) {
-		BufferedImage img1 = null;
-		BufferedImage img2 = null;
-		CompareImages comparator = new CompareImages();
-		try {
-			img1 = ImageIO.read(new File(getPathBaseLine() + "\\" + imgName));
-			img2 = ImageIO.read(new File(getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\" + imgName));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		BufferedImage outImg = comparator.getDifferenceImage(img1, img2);
-		File outputfile = new File(getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\Resultados\\" + imgName);
-		try {
-			ImageIO.write(outImg, "png", outputfile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		saveInfMetaData(validationName + ";" + imgName + ";" + comparator.getPercentualDiferencaUltimaImagem() + ";"
-				+ comparator.getQtdTotalPixelComparadosUltimaImagem() + ";"
-				+ comparator.getQtdPixelDiferentesUltimaImagem());
-		setDiff(comparator.isDiff());
-	}
-
-	public double compare(File img1, File img2) {
-		BufferedImage bfImg1 = null;
-		BufferedImage bfImg2 = null;
-		CompareImages comparator = new CompareImages();
-		try {
-			bfImg1 = ImageIO.read(img1);
-			bfImg2 = ImageIO.read(img2);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		comparator.getDifferenceImage(bfImg1, bfImg2);
-		return comparator.getPercentualDiferencaUltimaImagem();
-	}
-
-	private void removeFile(String fileFullName) {
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(fileFullName));
-			out.write("aString1\n");
-			out.close();
-			new File(fileFullName).delete();
-		} catch (IOException e) {
-			System.out.println("Error remove file: " + fileFullName + ". " + e.getMessage());
-		}
-	}
-
-	private void prepareEnvironment() {
-		if (!isValidacaoAtivada()) {
-			return;
-		}
-		Path dirBaseLine = getPathBaseLine();
-		Path dirComparison = Paths.get(getImgsPath() + "\\" + getDateTimeExecutionCurrent());
-		Path dirComparisonResults = Paths.get(dirComparison + "\\Resultados");
-		// Se o diretório do baseLine não existir, ele é criado.
-		if (!Files.exists(dirBaseLine)) {
-			File fdiretoriobaseLine = new File(dirBaseLine.toString());
-			fdiretoriobaseLine.mkdir();
-			isBaseLineCreated = true;
-			return;
-		}
-		// Se o diretório de comparacao não existir, ele é criado.
-		if (!Files.exists(dirComparison)) {
-			File fdiretoriocomparacao = new File(dirComparison.toString());
-			File fdiretoriocomparacaoresultado = new File(dirComparisonResults.toString());
-			fdiretoriocomparacao.mkdir();
-			fdiretoriocomparacaoresultado.mkdir();
-			// Cria o arquivo de metadados
-			saveHeadMetaData(dirComparison.getFileName().toString());
-		}
-	}
 
 	/**
 	 * Valida o layout da janela inteira Recebe como parametro o nome da
@@ -243,30 +91,7 @@ public class Sentinela {
 	 * @param imageName
 	 */
 	public void validate(String imageName) {
-		if (!isValidacaoAtivada()) {
-			return;
-		}
-		File baseLineFile = new File(getPathBaseLine() + "\\" + imageName + ".png");
-		// Verifica se já existe arquivo para essa validação na baseline.
-		if (baseLineFile.exists()) {
-			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
-			// removido.
-			File comparisonFile = new File(
-					getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\" + imageName + ".png");
-			if (comparisonFile.exists()) {
-				removeFile(comparisonFile.getAbsolutePath());
-			}
-			// Cria um print novo com prefixo comparar+nomeValidacao.png
-			savePrint(printWindowBrowser(), "\\" + getDateTimeExecutionCurrent() + "\\" + imageName, getWidthTela(),
-					getHeightTela());
-			// Compara print atual com print da base line
-			compare(imageName + ".png", imageName);
-		}
-		// Se não existe, cria um print novo
-		else {
-			savePrint(printWindowBrowser(), "\\" + getPathBaseLine().getFileName() + "\\" + imageName, getWidthTela(),
-					getHeightTela());
-		}
+		Validation.validate(this, imageName);
 	}
 
 	/**
@@ -277,30 +102,7 @@ public class Sentinela {
 	 * @param testDetails
 	 */
 	public void validate(String imageName, String testDetails) {
-		if (!isValidacaoAtivada()) {
-			return;
-		}
-		File baseLineFile = new File(getPathBaseLine() + "\\" + imageName + ".png");
-		// Verifica se já existe arquivo para essa validação na baseline.
-		if (baseLineFile.exists()) {
-			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
-			// removido.
-			File comparisonFile = new File(
-					getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\" + imageName + ".png");
-			if (comparisonFile.exists()) {
-				removeFile(comparisonFile.getAbsolutePath());
-			}
-			// Cria um print novo com prefixo comparar+nomeValidacao.png
-			savePrint(printWindowBrowser(), "\\" + getDateTimeExecutionCurrent() + "\\" + imageName, getWidthTela(),
-					getHeightTela());
-			// Compara print atual com print da base line
-			compare(imageName + ".png", testDetails);
-		}
-		// Se não existe, cria um print novo
-		else {
-			savePrint(printWindowBrowser(), "\\" + getPathBaseLine().getFileName() + "\\" + imageName, getWidthTela(),
-					getHeightTela());
-		}
+		Validation.validate(this, imageName, testDetails);
 	}
 
 	/**
@@ -313,38 +115,7 @@ public class Sentinela {
 	 * @param imageName
 	 */
 	public void validate(WebElement element, String imageName) {
-		if (!isValidacaoAtivada()) {
-			return;
-		}
-		File baseLineFile = new File(getPathBaseLine() + "\\" + imageName + ".png");
-		// Verifica se já existe arquivo para essa validação na baseline.
-		if (baseLineFile.exists()) {
-			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
-			// removido.
-			File comparisonFile = new File(
-					getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\" + imageName + ".png");
-			if (comparisonFile.exists()) {
-				removeFile(comparisonFile.getAbsolutePath());
-			}
-			// Cria um print novo com prefixo comparar+nomeValidacao.png
-			try {
-				savePrint(printWebElement(element), "\\" + getDateTimeExecutionCurrent() + "\\" + imageName,
-						getWidthElementos(), getHeightElementos());
-			} catch (IOException e) {
-				System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
-			}
-			// Compara print atual com print da base line
-			compare(imageName + ".png", imageName);
-		}
-		// Se não existe, cria um print novo com prefixo
-		else {
-			try {
-				savePrint(printWebElement(element), "\\" + getPathBaseLine().getFileName() + "\\" + imageName,
-						getWidthElementos(), getHeightElementos());
-			} catch (IOException e) {
-				System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
-			}
-		}
+		Validation.validate(this, element, imageName);
 	}
 
 	/**
@@ -358,38 +129,7 @@ public class Sentinela {
 	 * @param testDetails
 	 */
 	public void validate(WebElement element, String imageName, String testDetails) {
-		if (!isValidacaoAtivada()) {
-			return;
-		}
-		File baseLineFile = new File(getPathBaseLine() + "\\" + imageName + ".png");
-		// Verifica se já existe arquivo para essa validação na baseline.
-		if (baseLineFile.exists()) {
-			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
-			// removido.
-			File comparisonFile = new File(
-					getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\" + imageName + ".png");
-			if (comparisonFile.exists()) {
-				removeFile(comparisonFile.getAbsolutePath());
-			}
-			// Cria um print novo com prefixo comparar+nomeValidacao.png
-			try {
-				savePrint(printWebElement(element), "\\" + getDateTimeExecutionCurrent() + "\\" + imageName,
-						getWidthElementos(), getHeightElementos());
-			} catch (IOException e) {
-				System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
-			}
-			// Compara print atual com print da base line
-			compare(imageName + ".png", testDetails);
-		}
-		// Se não existe, cria um print novo com prefixo
-		else {
-			try {
-				savePrint(printWebElement(element), "\\" + getPathBaseLine().getFileName() + "\\" + imageName,
-						getWidthElementos(), getHeightElementos());
-			} catch (IOException e) {
-				System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
-			}
-		}
+		Validation.validate(this, element, imageName, testDetails);
 	}
 
 	/**
@@ -404,43 +144,7 @@ public class Sentinela {
 	 * @param imageName
 	 */
 	public void validate(List<WebElement> elements, String imageName) {
-		if (!isValidacaoAtivada()) {
-			return;
-		}
-		int cx = 0;
-		for (WebElement element : elements) {
-			File baseLineFile = new File(getPathBaseLine() + "\\" + imageName + cx + ".png");
-			// Verifica se já existe arquivo para essa validação na baseline.
-			if (baseLineFile.exists()) {
-				// Verifica se o arquivo de comparação já existe. Se exisitr ele
-				// é removido.
-				File comparisonFile = new File(
-						getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\comparar_" + imageName + cx + ".png");
-				if (comparisonFile.exists()) {
-					removeFile(comparisonFile.getAbsolutePath());
-				}
-				// Cria um print novo com prefixo comparar+nomeValidacao.png
-				try {
-					savePrint(printWebElement(element), "\\" + getDateTimeExecutionCurrent() + "\\" + imageName + cx,
-							getWidthElementos(), getHeightElementos());
-				} catch (IOException e) {
-					System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
-				}
-				// Compara print atual com print da base line
-				compare(imageName + cx + ".png", imageName);
-			}
-			// Se não existe, cria um print novo com prefixo
-			// original_+nomeValidacao.png
-			else {
-				try {
-					savePrint(printWebElement(element), "\\" + getPathBaseLine().getFileName() + "\\" + imageName + cx,
-							getWidthElementos(), getHeightElementos());
-				} catch (IOException e) {
-					System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
-				}
-			}
-			cx++;
-		}
+		Validation.validate(this, elements, imageName);
 	}
 
 	/**
@@ -456,43 +160,7 @@ public class Sentinela {
 	 * @param testDetails
 	 */
 	public void validate(List<WebElement> elements, String imageName, String testDetails) {
-		if (!isValidacaoAtivada()) {
-			return;
-		}
-		int cx = 0;
-		for (WebElement element : elements) {
-			File baseLineFile = new File(getPathBaseLine() + "\\" + imageName + cx + ".png");
-			// Verifica se já existe arquivo para essa validação na baseline.
-			if (baseLineFile.exists()) {
-				// Verifica se o arquivo de comparação já existe. Se exisitr ele
-				// é removido.
-				File comparisonFile = new File(
-						getImgsPath() + "\\" + getDateTimeExecutionCurrent() + "\\comparar_" + imageName + cx + ".png");
-				if (comparisonFile.exists()) {
-					removeFile(comparisonFile.getAbsolutePath());
-				}
-				// Cria um print novo com prefixo comparar+nomeValidacao.png
-				try {
-					savePrint(printWebElement(element), "\\" + getDateTimeExecutionCurrent() + "\\" + imageName + cx,
-							getWidthElementos(), getHeightElementos());
-				} catch (IOException e) {
-					System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
-				}
-				// Compara print atual com print da base line
-				compare(imageName + cx + ".png", testDetails);
-			}
-			// Se não existe, cria um print novo com prefixo
-			// original_+nomeValidacao.png
-			else {
-				try {
-					savePrint(printWebElement(element), "\\" + getPathBaseLine().getFileName() + "\\" + imageName + cx,
-							getWidthElementos(), getHeightElementos());
-				} catch (IOException e) {
-					System.out.println("Error to take element image. Element id: " + element.getAttribute("id"));
-				}
-			}
-			cx++;
-		}
+		Validation.validate(this, elements, imageName, testDetails);
 	}
 
 	public Path getImgsPath() {
@@ -579,7 +247,16 @@ public class Sentinela {
 		return isDiff;
 	}
 
-	private void setDiff(boolean isDiff) {
+	public void setDiff(boolean isDiff) {
 		this.isDiff = isDiff;
 	}
+
+	public boolean isBaseLineCreated() {
+		return isBaseLineCreated;
+	}
+
+	public void setBaseLineCreated(boolean isBaseLineCreated) {
+		this.isBaseLineCreated = isBaseLineCreated;
+	}
+	
 }
