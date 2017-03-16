@@ -16,10 +16,18 @@ public class GenericReport {
 		newReport();
 	}
 
+	public GenericReport(String dirReport) {
+		newReport(dirReport);
+	}
+	
 	private void newReport() {
 		extent = new ExtentReports("target", NetworkMode.OFFLINE);
 	}
 
+	private void newReport(String dirReport) {
+		extent = new ExtentReports(dirReport, NetworkMode.OFFLINE);
+	}
+	
 	public void startNewTest(String testName, String testDescription) {
 		ExtentTest test = extent.startTest(testName, testDescription);
 		myTests.add(test);

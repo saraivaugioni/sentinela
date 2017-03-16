@@ -158,8 +158,8 @@ public class GeneratorReport {
 		}
 		// Edita o HTML de index
 		editarRelatorioIndex();
-	}
-
+	}	
+	
 	private void copiaArquivosBaseLineParaHistorico(File localHistorico) {
 		// Lista as imagens dentro da base line
 		File diretorioBaseLine = new File(getPathBaseLine().toString() + "\\");
