@@ -1,5 +1,7 @@
 package br.com.saraivaugioni.sentinelaAPI.util.report;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.relevantcodes.extentreports.ExtentReports;
@@ -10,7 +12,7 @@ import com.relevantcodes.extentreports.NetworkMode;
 public class GenericReport {
 
 	private ExtentReports extent;
-	private List<ExtentTest> myTests;
+	private List<ExtentTest> myTests = new ArrayList<ExtentTest>();
 
 	public GenericReport() {
 		newReport();
@@ -19,15 +21,15 @@ public class GenericReport {
 	public GenericReport(String dirReport) {
 		newReport(dirReport);
 	}
-	
+
 	private void newReport() {
 		extent = new ExtentReports("target", NetworkMode.OFFLINE);
 	}
 
 	private void newReport(String dirReport) {
-		extent = new ExtentReports(dirReport, NetworkMode.OFFLINE);
+		extent = new ExtentReports(dirReport + "\\index.html", NetworkMode.OFFLINE);
 	}
-	
+
 	public void startNewTest(String testName, String testDescription) {
 		ExtentTest test = extent.startTest(testName, testDescription);
 		myTests.add(test);
@@ -47,6 +49,26 @@ public class GenericReport {
 		}
 	}
 
+	public void addTagTest(String testName, String... tags) {
+		for (ExtentTest myTest : myTests) {
+			if (myTest.getTest().getName().trim().equals(testName)) {
+				myTest.assignCategory(tags);
+			}
+		}
+	}
+
+	public void addLogTestFail(String testName, String stepName, String details, String... imageFile) {
+		for (ExtentTest myTest : myTests) {
+			if (myTest.getTest().getName().trim().equals(testName)) {
+				String listImgs = "";
+				for (String img : imageFile) {
+					listImgs += myTest.addScreenCapture(img);
+				}
+				myTest.log(LogStatus.FAIL, stepName, details + listImgs);
+			}
+		}
+	}
+
 	public void addLogTestFail(String testName, String stepName, String details) {
 		for (ExtentTest myTest : myTests) {
 			if (myTest.getTest().getName().trim().equals(testName)) {
@@ -62,7 +84,7 @@ public class GenericReport {
 			}
 		}
 	}
-	
+
 	public void addLogTestFatal(String testName, String stepName, String details) {
 		for (ExtentTest myTest : myTests) {
 			if (myTest.getTest().getName().trim().equals(testName)) {
@@ -70,11 +92,23 @@ public class GenericReport {
 			}
 		}
 	}
-	
+
 	public void addLogTestInfo(String testName, String stepName, String details) {
 		for (ExtentTest myTest : myTests) {
 			if (myTest.getTest().getName().trim().equals(testName)) {
 				myTest.log(LogStatus.INFO, stepName, details);
+			}
+		}
+	}
+
+	public void addLogTestPass(String testName, String stepName, String details, String... imageFile) {
+		for (ExtentTest myTest : myTests) {
+			if (myTest.getTest().getName().trim().equals(testName)) {
+				String listImgs = "";
+				for (String img : imageFile) {
+					listImgs += myTest.addScreenCapture(img);
+				}
+				myTest.log(LogStatus.PASS, stepName, details + listImgs);
 			}
 		}
 	}
@@ -86,7 +120,7 @@ public class GenericReport {
 			}
 		}
 	}
-	
+
 	public void addLogTestSkip(String testName, String stepName, String details) {
 		for (ExtentTest myTest : myTests) {
 			if (myTest.getTest().getName().trim().equals(testName)) {
@@ -94,7 +128,7 @@ public class GenericReport {
 			}
 		}
 	}
-	
+
 	public void addLogTestUnknown(String testName, String stepName, String details) {
 		for (ExtentTest myTest : myTests) {
 			if (myTest.getTest().getName().trim().equals(testName)) {
@@ -102,7 +136,7 @@ public class GenericReport {
 			}
 		}
 	}
-	
+
 	public void addLogTestWarning(String testName, String stepName, String details) {
 		for (ExtentTest myTest : myTests) {
 			if (myTest.getTest().getName().trim().equals(testName)) {
@@ -110,5 +144,11 @@ public class GenericReport {
 			}
 		}
 	}
-	
+
+	public void endReport() {
+		if (extent != null) {
+			extent.flush();
+		}
+	}
+
 }

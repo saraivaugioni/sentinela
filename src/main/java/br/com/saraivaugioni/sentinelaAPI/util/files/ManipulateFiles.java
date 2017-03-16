@@ -15,6 +15,8 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
+import com.google.common.collect.Lists;
+
 public class ManipulateFiles {
 
 	public static void removeFile(String fileFullName) {
@@ -31,8 +33,8 @@ public class ManipulateFiles {
 	public static void saveInfMetaData(Path pathImg, String dateTimeExecutionCurrent, String inf) {
 		BufferedWriter out = null;
 		try {
-			FileWriter fstream = new FileWriter(
-					pathImg + "\\" + dateTimeExecutionCurrent + "\\Resultados\\metadados.ini", true);
+			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\Results\\metadados.ini",
+					true);
 			out = new BufferedWriter(fstream);
 			out.write(inf + "\n");
 			out.close();
@@ -45,8 +47,8 @@ public class ManipulateFiles {
 	public static void saveHeadMetaData(Path pathImg, String dateTimeExecutionCurrent, String head) {
 		BufferedWriter out = null;
 		try {
-			FileWriter fstream = new FileWriter(
-					pathImg + "\\" + dateTimeExecutionCurrent + "\\Resultados\\metadados.ini", true);
+			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\Results\\metadados.ini",
+					true);
 			out = new BufferedWriter(fstream);
 			out.write(head + "\n");
 			out.close();
@@ -60,7 +62,7 @@ public class ManipulateFiles {
 			String dateTimeExecutionCurrent) {
 		Path dirBaseLine = directoryBaseLine;
 		Path dirComparison = Paths.get(directoryImgPath + "\\" + dateTimeExecutionCurrent);
-		Path dirComparisonResults = Paths.get(dirComparison + "\\Resultados");
+		Path dirComparisonResults = Paths.get(dirComparison + "\\Results");
 		// Se o diretório do baseLine não existir, ele é criado.
 		if (!Files.exists(dirBaseLine)) {
 			File fdiretoriobaseLine = new File(dirBaseLine.toString());
@@ -79,8 +81,8 @@ public class ManipulateFiles {
 		return false;
 	}
 
-	public static List<String> lerInformacoesMetaDados(Path historico) {
-		File metadados = new File(historico + "\\metadados.ini");
+	public static List<String> lerInformacoesMetaDados(Path record) {
+		File metadados = new File(record + "\\metadados.ini");
 		BufferedReader reader = null;
 		List<String> informacoesImagens = new ArrayList<String>();
 		try {
@@ -157,6 +159,41 @@ public class ManipulateFiles {
 			}
 		}
 
+	}
+
+	public static List<Path> findTimeLineRecords(Path directoryImgPath) {
+		List<Path> listFilesRecords = new ArrayList<Path>();
+		File diretorioImagens = new File(directoryImgPath.toString());
+		File[] fList = diretorioImagens.listFiles();
+		for (File arquivo : fList) {
+			if (arquivo.isDirectory()) {
+				if (isRecord(arquivo.getAbsolutePath())) {
+					if (validateTimeLineRecords(arquivo)) {
+						listFilesRecords.add(Paths.get(arquivo.getAbsolutePath()));
+					}
+				}
+			}
+		}
+		return Lists.reverse(listFilesRecords);
+	}
+
+	private static boolean isRecord(String dirName) {
+		if (Files.exists(Paths.get(dirName + "\\Results\\metadados.ini"))) {
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean validateTimeLineRecords(File localRecord) {
+		Path metaDadosFilePath = Paths.get(localRecord + "\\Results\\");
+		if (!Files.exists(Paths.get(metaDadosFilePath + "\\metadados.ini"))) {
+			return false;
+		}
+		List<String> infMetaDados = ManipulateFiles.lerInformacoesMetaDados(metaDadosFilePath);
+		if (infMetaDados.size() <= 1) {
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinelaAPI.util.report.GeneratorExtentReport;
 import br.com.saraivaugioni.sentinelaAPI.util.report.GeneratorReport;
 import br.com.saraivaugioni.sentinelaAPI.validation.Validation;
 
@@ -75,11 +76,14 @@ public class Sentinela {
 
 
 	public void generateReport() {
+		GeneratorExtentReport generatorExtentReport;
 		if (!isValidacaoAtivada()) {
 			return;
 		}
 		if (!isBaseLineCreated) {
-			new GeneratorReport(getPathRelatorio().toString(), getImgsPath() + "\\", getPathBaseLine() + "\\");
+			generatorExtentReport = new GeneratorExtentReport(getPathRelatorio().toString(), getImgsPath() + "\\", getPathBaseLine() + "\\");
+			generatorExtentReport.generateReport();
+			//new GeneratorReport(getPathRelatorio().toString(), getImgsPath() + "\\", getPathBaseLine() + "\\");
 		}
 	}
 

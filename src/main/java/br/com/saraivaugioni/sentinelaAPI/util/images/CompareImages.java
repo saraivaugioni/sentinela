@@ -194,7 +194,7 @@ public class CompareImages {
 			e.printStackTrace();
 		}
 		BufferedImage outImg = comparator.getDifferenceImage(img1, img2);
-		File outputfile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\Resultados\\" + imgName);
+		File outputfile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\Results\\" + imgName);
 		try {
 			ImageIO.write(outImg, "png", outputfile);
 		} catch (IOException e) {

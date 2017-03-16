@@ -25,7 +25,7 @@ public class PrepareExtentReportEnvironment {
 		setPathBaseLine(pathBaseLne);
 	}
 	
-	public void prepareEnvironment(){
+	public List<Path> prepareEnvironment(){
 		
 		List<Path> timeLineRecords = new ArrayList<Path>();
 		
@@ -43,8 +43,7 @@ public class PrepareExtentReportEnvironment {
 		}
 		
 		
-		timeLineRecords = findTimeLineRecords();
-		
+		timeLineRecords = ManipulateFiles.findTimeLineRecords(getPathImgs());
 		
 		// Cria os diretorios de historico na pasta do relatorio e copia as
 		// imagens de resultados e o metadados.
@@ -60,48 +59,11 @@ public class PrepareExtentReportEnvironment {
 			ManipulateFiles.copyFilesResultsComparedToRecords(new File(pathRecords.toString()), fdirRecord);
 		}
 		
+		return timeLineRecords;
+		
 	}
 	
 	
-	private List<Path> findTimeLineRecords() {
-		List<Path> listFilesRecords = new ArrayList<Path>();
-		File diretorioImagens = new File(getPathImgs().toString());
-		File[] fList = diretorioImagens.listFiles();
-		for (File arquivo : fList) {
-			if (arquivo.isDirectory()) {
-				if (isRecord(arquivo.getAbsolutePath())) {
-					if (validateTimeLineRecords(arquivo)) {
-						listFilesRecords.add(Paths.get(arquivo.getAbsolutePath()));
-					}
-				}
-				;
-			}
-		}
-		return Lists.reverse(listFilesRecords);
-	}
-	
-	
-	private boolean isRecord(String dirName) {
-		if (Files.exists(Paths.get(dirName + "\\Resultados\\metadados.ini"))) {
-			return true;
-		}
-		return false;
-	}
-	
-	private boolean validateTimeLineRecords(File localRecord) {
-		Path metaDadosFilePath = Paths.get(localRecord + "\\Resultados\\");
-		if (!Files.exists(Paths.get(metaDadosFilePath + "\\metadados.ini"))) {
-			return false;
-		}
-		List<String> infMetaDados = ManipulateFiles.lerInformacoesMetaDados(metaDadosFilePath);
-		if (infMetaDados.size() <= 1) {
-			return false;
-		}
-		return true;
-	}
-
-
-
 	public Path getPathReport() {
 		return pathReport;
 	}
