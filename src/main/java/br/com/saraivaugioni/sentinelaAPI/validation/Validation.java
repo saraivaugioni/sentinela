@@ -20,11 +20,11 @@ public class Validation {
 	 * @param imageName
 	 */
 	public static void validate(Sentinela sentinela, String imageName) {
-		if (!sentinela.isValidacaoAtivada()) {
+		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
 
-		File baseLineFile = new File(sentinela.getPathBaseLine() + "\\" + imageName + ".png");
+		File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
 		File printFile = PrintsScreen.printWindowBrowser(sentinela.getDriverSelenium());
 
 		// Verifica se já existe arquivo para essa validação na baseline.
@@ -34,25 +34,25 @@ public class Validation {
 			// removido.
 			// Check if comparation file exists. If true it is removed.
 			File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-					+ "\\" + imageName + ".png");
+					+ "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
 			if (comparisonFile.exists()) {
 				ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 			}
 			// Cria um print novo com prefixo comparar+nomeValidacao.png
 			// Make new print with prefix comparar+validationName.png
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName, sentinela.getWidthTela(),
-					sentinela.getHeightTela());
+					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName, sentinela.getImgWidth(),
+					sentinela.getImgHeight());
 			// Compara print atual com print da base line
 			// Compare actual print with baseline print.
-			CompareImages.compare(sentinela, imageName + ".png", imageName);
+			CompareImages.compare(sentinela, imageName + "."+ManipulateFiles.getListString("imgExtension"), imageName);
 		}
 		// Se não existe, cria um print novo na base line
 		// If dont exists, make new print in baseline.
 		else {
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-					"\\" + sentinela.getPathBaseLine().getFileName() + "\\" + imageName, sentinela.getWidthTela(),
-					sentinela.getHeightTela());
+					"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName, sentinela.getImgWidth(),
+					sentinela.getImgHeight());
 		}
 	}
 
@@ -64,32 +64,32 @@ public class Validation {
 	 * @param testDetails
 	 */
 	public static void validate(Sentinela sentinela, String imageName, String testDetails) {
-		if (!sentinela.isValidacaoAtivada()) {
+		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
-		File baseLineFile = new File(sentinela.getPathBaseLine() + "\\" + imageName + ".png");
+		File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
 		File printFile = PrintsScreen.printWindowBrowser(sentinela.getDriverSelenium());
 		// Verifica se já existe arquivo para essa validação na baseline.
 		if (baseLineFile.exists()) {
 			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
 			// removido.
 			File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-					+ "\\" + imageName + ".png");
+					+ "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
 			if (comparisonFile.exists()) {
 				ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 			}
 			// Cria um print novo com prefixo comparar+nomeValidacao.png
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName, sentinela.getWidthTela(),
-					sentinela.getHeightTela());
+					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName, sentinela.getImgWidth(),
+					sentinela.getImgHeight());
 			// Compara print atual com print da base line
-			CompareImages.compare(sentinela,imageName + ".png", testDetails);
+			CompareImages.compare(sentinela,imageName + "."+ManipulateFiles.getListString("imgExtension"), testDetails);
 		}
 		// Se não existe, cria um print novo
 		else {
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-					"\\" + sentinela.getPathBaseLine().getFileName() + "\\" + imageName, sentinela.getWidthTela(),
-					sentinela.getHeightTela());
+					"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName, sentinela.getImgWidth(),
+					sentinela.getImgHeight());
 		}
 	}
 
@@ -103,10 +103,10 @@ public class Validation {
 	 * @param imageName
 	 */
 	public static void validate(Sentinela sentinela, WebElement element, String imageName) {
-		if (!sentinela.isValidacaoAtivada()) {
+		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
-		File baseLineFile = new File(sentinela.getPathBaseLine() + "\\" + imageName + ".png");
+		File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
 		File printFile = null;
 
 		try {
@@ -121,21 +121,21 @@ public class Validation {
 			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
 			// removido.
 			File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-					+ "\\" + imageName + ".png");
+					+ "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
 			if (comparisonFile.exists()) {
 				ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 			}
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName, sentinela.getWidthElementos(),
-					sentinela.getHeightElementos());
+					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName, sentinela.getElementsWidth(),
+					sentinela.getElementsHeight());
 			// Compara print atual com print da base line
-			CompareImages.compare(sentinela,imageName + ".png", imageName);
+			CompareImages.compare(sentinela,imageName + "."+ManipulateFiles.getListString("imgExtension"), imageName);
 		}
 		// Se não existe, cria um print novo com prefixo
 		else {
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-					"\\" + sentinela.getPathBaseLine().getFileName() + "\\" + imageName, sentinela.getWidthElementos(),
-					sentinela.getHeightElementos());
+					"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName, sentinela.getElementsWidth(),
+					sentinela.getElementsHeight());
 		}
 	}
 
@@ -150,10 +150,10 @@ public class Validation {
 	 * @param testDetails
 	 */
 	public static void validate(Sentinela sentinela, WebElement element, String imageName, String testDetails) {
-		if (!sentinela.isValidacaoAtivada()) {
+		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
-		File baseLineFile = new File(sentinela.getPathBaseLine() + "\\" + imageName + ".png");
+		File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
 		File printFile = null;
 
 		try {
@@ -168,21 +168,21 @@ public class Validation {
 			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
 			// removido.
 			File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-					+ "\\" + imageName + ".png");
+					+ "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
 			if (comparisonFile.exists()) {
 				ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 			}
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
 					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName,
-					sentinela.getWidthElementos(), sentinela.getHeightElementos());
+					sentinela.getElementsWidth(), sentinela.getElementsHeight());
 			// Compara print atual com print da base line
-			CompareImages.compare(sentinela,imageName + ".png", testDetails);
+			CompareImages.compare(sentinela,imageName + "."+ManipulateFiles.getListString("imgExtension"), testDetails);
 		}
 		// Se não existe, cria um print novo com prefixo
 		else {
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-					"\\" + sentinela.getPathBaseLine().getFileName() + "\\" + imageName,
-					sentinela.getWidthElementos(), sentinela.getHeightElementos());
+					"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName,
+					sentinela.getElementsWidth(), sentinela.getElementsHeight());
 		}
 	}
 
@@ -198,12 +198,12 @@ public class Validation {
 	 * @param imageName
 	 */
 	public static void validate(Sentinela sentinela, List<WebElement> elements, String imageName) {
-		if (!sentinela.isValidacaoAtivada()) {
+		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
 		int cx = 0;
 		for (WebElement element : elements) {
-			File baseLineFile = new File(sentinela.getPathBaseLine() + "\\" + imageName + cx + ".png");
+			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
 			File printFile = null;
 
 			try {
@@ -218,22 +218,22 @@ public class Validation {
 				// Verifica se o arquivo de comparação já existe. Se exisitr ele
 				// é removido.
 				File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-						+ "\\comparar_" + imageName + cx + ".png");
+						+ "\\"+ManipulateFiles.getListString("imgComparePrefix")+"_" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
 				if (comparisonFile.exists()) {
 					ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 				}
 				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
 						"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName + cx,
-						sentinela.getWidthElementos(), sentinela.getHeightElementos());
+						sentinela.getElementsWidth(), sentinela.getElementsHeight());
 				// Compara print atual com print da base line
-				CompareImages.compare(sentinela,imageName + cx + ".png", imageName);
+				CompareImages.compare(sentinela,imageName + cx + "."+ManipulateFiles.getListString("imgExtension"), imageName);
 			}
 			// Se não existe, cria um print novo com prefixo
 			// original_+nomeValidacao.png
 			else {
 				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-						"\\" + sentinela.getPathBaseLine().getFileName() + "\\" + imageName + cx,
-						sentinela.getWidthElementos(), sentinela.getHeightElementos());
+						"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName + cx,
+						sentinela.getElementsWidth(), sentinela.getElementsHeight());
 			}
 			cx++;
 		}
@@ -252,12 +252,12 @@ public class Validation {
 	 * @param testDetails
 	 */
 	public static void validate(Sentinela sentinela, List<WebElement> elements, String imageName, String testDetails) {
-		if (!sentinela.isValidacaoAtivada()) {
+		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
 		int cx = 0;
 		for (WebElement element : elements) {
-			File baseLineFile = new File(sentinela.getPathBaseLine() + "\\" + imageName + cx + ".png");
+			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
 			File printFile = null;
 
 			try {
@@ -272,22 +272,22 @@ public class Validation {
 				// Verifica se o arquivo de comparação já existe. Se exisitr ele
 				// é removido.
 				File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-						+ "\\comparar_" + imageName + cx + ".png");
+						+ "\\"+ManipulateFiles.getListString("imgComparePrefix")+"_" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
 				if (comparisonFile.exists()) {
 					ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 				}
 				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
 						"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName + cx,
-						sentinela.getWidthElementos(), sentinela.getHeightElementos());
+						sentinela.getElementsWidth(), sentinela.getElementsHeight());
 				// Compara print atual com print da base line
-				CompareImages.compare(sentinela,imageName + cx + ".png", testDetails);
+				CompareImages.compare(sentinela,imageName + cx + "."+ManipulateFiles.getListString("imgExtension"), testDetails);
 			}
 			// Se não existe, cria um print novo com prefixo
 			// original_+nomeValidacao.png
 			else {
 				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-						"\\" + sentinela.getPathBaseLine().getFileName() + "\\" + imageName + cx,
-						sentinela.getWidthElementos(), sentinela.getHeightElementos());
+						"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName + cx,
+						sentinela.getElementsWidth(), sentinela.getElementsHeight());
 			}
 			cx++;
 		}

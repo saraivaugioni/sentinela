@@ -1,0 +1,32 @@
+currentDateTimeFormat = yyyy-MM-dd HH-mm-ss
+nameDirBaseline = baseLine
+nameDirResults = Results
+nameDirActualTest = imgsActualTest
+nameDirComparisonResults = ComparisonResults
+nameDirReportRecords = records
+nameFileMetadata = metadados.ini
+imgExtension = png
+erroImgDiffSize = Error: Picture diff size
+
+Tests
+testOverviewName = Overview
+testOverviewDescription = Consolidated test information
+testQtyDiffPictCompared = Quantity pictures compared
+testQtyDiffPict = Quantity diff pictures
+testPercDiffPict = Percentage diff pictures
+testQtyPixelCompared = Quantity pixels compared
+testQtyDiffPixel = Quantity diff pixels
+testPercDiffPixel = Percentage diff pixels
+testImgComparison = Image comparison
+
+descriptionImgA = BaseLine
+descriptionImgB = Actual test
+descriptionImgC = Result comparison
+
+Report
+dirTarget = target
+reportIndex = index.html
+extentConfigFile = extent-config.xml
+
+Validate
+imgComparePrefix = compare

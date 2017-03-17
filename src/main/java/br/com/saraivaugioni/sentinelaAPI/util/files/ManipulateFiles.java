@@ -7,11 +7,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 
@@ -33,7 +35,7 @@ public class ManipulateFiles {
 	public static void saveInfMetaData(Path pathImg, String dateTimeExecutionCurrent, String inf) {
 		BufferedWriter out = null;
 		try {
-			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\Results\\metadados.ini",
+			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\"+getListString("nameDirResults")+"\\"+getListString("nameFileMetadata"),
 					true);
 			out = new BufferedWriter(fstream);
 			out.write(inf + "\n");
@@ -47,7 +49,7 @@ public class ManipulateFiles {
 	public static void saveHeadMetaData(Path pathImg, String dateTimeExecutionCurrent, String head) {
 		BufferedWriter out = null;
 		try {
-			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\Results\\metadados.ini",
+			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\"+getListString("nameDirResults")+"\\"+getListString("nameFileMetadata"),
 					true);
 			out = new BufferedWriter(fstream);
 			out.write(head + "\n");
@@ -62,7 +64,7 @@ public class ManipulateFiles {
 			String dateTimeExecutionCurrent) {
 		Path dirBaseLine = directoryBaseLine;
 		Path dirComparison = Paths.get(directoryImgPath + "\\" + dateTimeExecutionCurrent);
-		Path dirComparisonResults = Paths.get(dirComparison + "\\Results");
+		Path dirComparisonResults = Paths.get(dirComparison + "\\"+ManipulateFiles.getListString("nameDirResults"));
 		// Se o diretório do baseLine não existir, ele é criado.
 		if (!Files.exists(dirBaseLine)) {
 			File fdiretoriobaseLine = new File(dirBaseLine.toString());
@@ -82,7 +84,7 @@ public class ManipulateFiles {
 	}
 
 	public static List<String> lerInformacoesMetaDados(Path record) {
-		File metadados = new File(record + "\\metadados.ini");
+		File metadados = new File(record + "\\"+getListString("nameFileMetadata"));
 		BufferedReader reader = null;
 		List<String> informacoesImagens = new ArrayList<String>();
 		try {
@@ -131,7 +133,7 @@ public class ManipulateFiles {
 			if (fileHistory.isFile()) {
 				try {
 					FileUtils.copyFile(fileHistory,
-							new File(fHistoryLocalReport + "\\imgsActualTest\\" + fileHistory.getName()));
+							new File(fHistoryLocalReport + "\\"+getListString("nameDirActualTest")+"\\" + fileHistory.getName()));
 				} catch (IOException e) {
 					e.getMessage();
 				}
@@ -140,18 +142,18 @@ public class ManipulateFiles {
 	}
 
 	public static void copyFilesResultsComparedToRecords(File fHistoryLocal, File fHistoryLocalReport) {
-		File dirResultImgs = new File(fHistoryLocal.toString() + "\\Results\\");
+		File dirResultImgs = new File(fHistoryLocal.toString() + "\\"+getListString("nameDirResults")+"\\");
 		File[] fList = dirResultImgs.listFiles();
 		// Copia todos os arquivos da pasta de Resultados: que foram gerados
 		// pela comparação.
 		for (File arquivo : fList) {
 			if (arquivo.isFile()) {
 				try {
-					if (arquivo.getName().trim().toUpperCase().equals("metadados.ini".trim().toUpperCase())) {
+					if (arquivo.getName().trim().toUpperCase().equals(getListString("nameFileMetadata").trim().toUpperCase())) {
 						FileUtils.copyFile(arquivo, new File(fHistoryLocalReport + "\\" + arquivo.getName()));
 					} else {
 						FileUtils.copyFile(arquivo,
-								new File(fHistoryLocalReport + "\\ComparisonResults\\" + arquivo.getName()));
+								new File(fHistoryLocalReport + "\\"+getListString("nameDirComparisonResults")+"\\" + arquivo.getName()));
 					}
 				} catch (IOException e) {
 					e.getMessage();
@@ -178,15 +180,15 @@ public class ManipulateFiles {
 	}
 
 	private static boolean isRecord(String dirName) {
-		if (Files.exists(Paths.get(dirName + "\\Results\\metadados.ini"))) {
+		if (Files.exists(Paths.get(dirName + "\\"+getListString("nameDirResults")+"\\"+getListString("nameFileMetadata")))) {
 			return true;
 		}
 		return false;
 	}
 
 	private static boolean validateTimeLineRecords(File localRecord) {
-		Path metaDadosFilePath = Paths.get(localRecord + "\\Results\\");
-		if (!Files.exists(Paths.get(metaDadosFilePath + "\\metadados.ini"))) {
+		Path metaDadosFilePath = Paths.get(localRecord + "\\"+getListString("nameDirResults")+"\\");
+		if (!Files.exists(Paths.get(metaDadosFilePath + "\\"+getListString("nameFileMetadata")))) {
 			return false;
 		}
 		List<String> infMetaDados = ManipulateFiles.lerInformacoesMetaDados(metaDadosFilePath);
@@ -194,6 +196,19 @@ public class ManipulateFiles {
 			return false;
 		}
 		return true;
+	}
+	
+	public static String getListString(String stringName) {
+		Properties properties = new Properties();
+		String valor = "";
+		ClassLoader classLoader = ManipulateFiles.class.getClassLoader();
+		try {
+			properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream("listStrings"),"UTF-8")));
+			valor = properties.getProperty(stringName);
+		}catch(Exception ex){
+			valor = "";
+		}
+		return valor;
 	}
 
 }

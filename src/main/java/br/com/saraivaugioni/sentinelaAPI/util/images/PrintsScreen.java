@@ -14,6 +14,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
+
 public class PrintsScreen {
 	
 	// Janela completa
@@ -38,12 +40,12 @@ public class PrintsScreen {
 		} else {
 			dest = img.getSubimage(0, 0, 1, 1);
 		}
-		ImageIO.write(dest, "png", scrFile);
+		ImageIO.write(dest, ManipulateFiles.getListString("imgExtension"), scrFile);
 		return scrFile;
 	}
 	
 	public static void savePrint(Path imgPath, File tempFilePrintSelenium, String finalPrintName, int width, int height) {
-		String fileName = imgPath.toString() + finalPrintName + ".png";
+		String fileName = imgPath.toString() + finalPrintName + "."+ManipulateFiles.getListString("imgExtension");
 		// Cria a imagem no disco.
 		try {
 			FileUtils.copyFile(tempFilePrintSelenium, new File(fileName), false);
@@ -55,13 +57,10 @@ public class PrintsScreen {
 		BufferedImage img = new ImgUtils().scaleImage(width, height, fileName);
 		File filePrintNewResolution = new File(fileName);
 		try {
-			ImageIO.write(img, "png", filePrintNewResolution);
+			ImageIO.write(img, ManipulateFiles.getListString("imgExtension"), filePrintNewResolution);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
-
-
 
 }

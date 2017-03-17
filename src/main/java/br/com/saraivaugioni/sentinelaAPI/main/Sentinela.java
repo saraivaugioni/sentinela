@@ -11,8 +11,10 @@ import org.openqa.selenium.WebElement;
 
 import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
 import br.com.saraivaugioni.sentinelaAPI.util.report.GeneratorExtentReport;
-import br.com.saraivaugioni.sentinelaAPI.util.report.GeneratorReport;
 import br.com.saraivaugioni.sentinelaAPI.validation.Validation;
+
+
+//tradução ok
 
 public class Sentinela {
 
@@ -34,40 +36,40 @@ public class Sentinela {
 		Path localPath = Paths.get(pathImgs);
 		Path localhPathReport = Paths.get(pathReport);
 		setImgsPath(localPath);
-		setPathRelatorio(localhPathReport);
+		setReportPath(localhPathReport);
 		setDriverSelenium(driver);
 		// Set current base line
-		setBaseLine(baseLineName);
+		setBaseLinePath(baseLineName);
 		// Setup resolution
 		setWidthTela(imgWidth);
-		setHeightTela(imgHeight);
+		setImgHeight(imgHeight);
 		// Save current date time to be used as the historical test run
 		// Salva a data e hora atual para ser usada como histórico da nova
 		// bateria de execução;
-		SimpleDateFormat currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+		SimpleDateFormat currentDateTime = new SimpleDateFormat(ManipulateFiles.getListString("currentDateTimeFormat"));
 		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
 		// Prepara o ambiente
-		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getPathBaseLine(), getImgsPath(), getDateTimeExecutionCurrent()));
+		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
 	}
 
 	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight) {
 		Path localPath = Paths.get(pathImgs);
 		Path localhPathReport = Paths.get(pathReport);
 		setImgsPath(localPath);
-		setPathRelatorio(localhPathReport);
+		setReportPath(localhPathReport);
 		setDriverSelenium(driver);
 		// Set current base line as default value
-		setBaseLine("baseLine");
+		setBaseLinePath(ManipulateFiles.getListString("nameDirBaseline"));
 		// Setup resolution
 		setWidthTela(imgWidth);
-		setHeightTela(imgHeight);
+		setImgHeight(imgHeight);
 		// Save current date time to be used as the historical test run
 		// Salva a data e hora atual para ser usada como histórico da nova
 		// bateria de execução
-		SimpleDateFormat currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+		SimpleDateFormat currentDateTime = new SimpleDateFormat(ManipulateFiles.getListString("currentDateTimeFormat"));
 		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
 		// Prepara o ambiente
-		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getPathBaseLine(), getImgsPath(), getDateTimeExecutionCurrent()));
+		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
 	}
 
 	public Sentinela() {
@@ -77,11 +79,11 @@ public class Sentinela {
 
 	public void generateReport() {
 		GeneratorExtentReport generatorExtentReport;
-		if (!isValidacaoAtivada()) {
+		if (!isEnabledValidation()) {
 			return;
 		}
 		if (!isBaseLineCreated) {
-			generatorExtentReport = new GeneratorExtentReport(getPathRelatorio().toString(), getImgsPath() + "\\", getPathBaseLine() + "\\");
+			generatorExtentReport = new GeneratorExtentReport(getReportPath().toString(), getImgsPath() + "\\", getBaseLinePath() + "\\");
 			generatorExtentReport.generateReport();
 			//new GeneratorReport(getPathRelatorio().toString(), getImgsPath() + "\\", getPathBaseLine() + "\\");
 		}
@@ -191,55 +193,55 @@ public class Sentinela {
 		this.dateTimeExecutionCurrent = dateTimeExecutionCurrent;
 	}
 
-	public int getWidthElementos() {
+	public int getElementsWidth() {
 		return elementsWidth;
 	}
 
-	public void setWidthElementos(int widthElementos) {
-		this.elementsWidth = widthElementos;
+	public void setElementsWidth(int elementsWidth) {
+		this.elementsWidth = elementsWidth;
 	}
 
-	public int getHeightElementos() {
+	public int getElementsHeight() {
 		return elementsHeight;
 	}
 
-	public void setHeightElementos(int heightElementos) {
-		this.elementsHeight = heightElementos;
+	public void setElementsHeight(int elementsHeight) {
+		this.elementsHeight = elementsHeight;
 	}
 
-	public int getWidthTela() {
+	public int getImgWidth() {
 		return imgWidth;
 	}
 
-	public void setWidthTela(int widthTela) {
-		this.imgWidth = widthTela;
+	public void setWidthTela(int imgWidth) {
+		this.imgWidth = imgWidth;
 	}
 
-	public int getHeightTela() {
+	public int getImgHeight() {
 		return imgHeight;
 	}
 
-	public void setHeightTela(int heightTela) {
-		this.imgHeight = heightTela;
+	public void setImgHeight(int imgHeight) {
+		this.imgHeight = imgHeight;
 	}
 
-	public void setPathRelatorio(Path pathRelatorio) {
+	public void setReportPath(Path pathRelatorio) {
 		this.reportPath = pathRelatorio;
 	}
 
-	public Path getPathRelatorio() {
+	public Path getReportPath() {
 		return reportPath;
 	}
 
-	public Path getPathBaseLine() {
+	public Path getBaseLinePath() {
 		return baseLinePath;
 	}
 
-	private void setBaseLine(String nomeBaseLine) {
+	private void setBaseLinePath(String nomeBaseLine) {
 		this.baseLinePath = Paths.get(getImgsPath() + "\\" + nomeBaseLine);
 	}
 
-	public boolean isValidacaoAtivada() {
+	public boolean isEnabledValidation() {
 		return isEnabledValidation;
 	}
 

@@ -30,7 +30,7 @@ public class PrepareExtentReportEnvironment {
 		List<Path> timeLineRecords = new ArrayList<Path>();
 		
 		reportDir = getPathReport();
-		reportDirRecords = Paths.get(reportDir + "\\records\\");
+		reportDirRecords = Paths.get(reportDir + "\\"+ManipulateFiles.getListString("nameDirReportRecords")+"\\");
 		
 		if(!Files.exists(reportDir)){
 			File fReportDir = new File(reportDir.toString());

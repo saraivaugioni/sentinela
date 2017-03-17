@@ -47,21 +47,23 @@ public class GeneratorExtentReport {
 
 			// Read metadata record
 			String recordExecution = record.getFileName().toString();
-			List<String> infHistorico = ManipulateFiles
-					.lerInformacoesMetaDados(Paths.get(getPathReport() + "\\records\\" + recordExecution));
-			String dataHora = infHistorico.get(0);
-			DateFormat formatIN = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-			DateFormat formatoutDATA = new SimpleDateFormat("dd/MM/yyyy");
-			DateFormat formatoutHORA = new SimpleDateFormat("HH:mm:ss");
-			Date dataHoraHistorico = null;
-			try {
-				dataHoraHistorico = formatIN.parse(dataHora);
-			} catch (ParseException e3) {
-				e3.getMessage();
-			}
+			List<String> infHistorico = ManipulateFiles.lerInformacoesMetaDados(Paths.get(getPathReport() + "\\"
+					+ ManipulateFiles.getListString("nameDirReportRecords") + "\\" + recordExecution));
 
-			relatorio.startNewTest("Overview - " + recordExecution, "Consolidated test information");
+			// String dataHora = infHistorico.get(0);
+			// DateFormat formatIN = new
+			// SimpleDateFormat(ManipulateFiles.getListString("currentDateTimeFormat"));
+			// Date dataHoraHistorico = null;
+			// try {
+			// dataHoraHistorico = formatIN.parse(dataHora);
+			// } catch (ParseException e3) {
+			// e3.getMessage();
+			// }
 
+			relatorio.startNewTest(ManipulateFiles.getListString("testOverviewName") + " - " + recordExecution,
+					ManipulateFiles.getListString("testOverviewDescription"));
+			relatorio.addTagTest(ManipulateFiles.getListString("testOverviewName") + " - " + recordExecution,
+					recordExecution);
 			// Consolidado dos dados sobre a execução
 			int totalImgComparadas = 0;
 			int totalPixelsComparados = 0;
@@ -87,13 +89,13 @@ public class GeneratorExtentReport {
 				percentualImgDiferentes = (100 * qtdTelasDiferencas) / totalImgComparadas;
 			}
 
-			relatorio.addLogTestInfo("Overview - " + recordExecution, "",
-					"<b>Quantity pictures compared: </b>" + totalImgComparadas + "<br><b>Quantity diff pictures: </b>"
-							+ qtdTelasDiferencas + "<br><b>Percentage diff pictures: </b>" + percentualImgDiferentes
-							+ "<br><br><b>Quantity pixels compared: </b>" + totalPixelsComparados
-							+ "<br><b>Quantity diff pixels: </b>" + totalPixelsDiferentes
-							+ "<br><b>Percentage diff pixels: </b>" + percentualDiferencas);
-			relatorio.endTest("Overview - " + recordExecution);
+			relatorio.addLogTestInfo(ManipulateFiles.getListString("testOverviewName") + " - " + recordExecution, "",
+					"<b>"+ManipulateFiles.getListString("testQtyDiffPictCompared")+": </b>" + totalImgComparadas + "<br><b>"+ManipulateFiles.getListString("testQtyDiffPict")+": </b>"
+							+ qtdTelasDiferencas + "<br><b>"+ManipulateFiles.getListString("testPercDiffPict")+": </b>" + percentualImgDiferentes
+							+ "<br><br><b>"+ManipulateFiles.getListString("testQtyPixelCompared")+": </b>" + totalPixelsComparados
+							+ "<br><b>"+ManipulateFiles.getListString("testQtyDiffPixel")+": </b>" + totalPixelsDiferentes
+							+ "<br><b>"+ManipulateFiles.getListString("testPercDiffPixel")+": </b>" + percentualDiferencas);
+			relatorio.endTest(ManipulateFiles.getListString("testOverviewName") + " - " + recordExecution);
 		}
 	}
 
@@ -105,7 +107,7 @@ public class GeneratorExtentReport {
 			// Read metadata record
 			String recordExecution = record.getFileName().toString();
 			List<String> infHistorico = ManipulateFiles
-					.lerInformacoesMetaDados(Paths.get(getPathReport() + "\\records\\" + recordExecution));
+					.lerInformacoesMetaDados(Paths.get(getPathReport() + "\\"+ManipulateFiles.getListString("nameDirReportRecords")+"\\" + recordExecution));
 
 			// For each image test result
 			for (int i = 1; i < infHistorico.size(); i++) {
@@ -115,9 +117,9 @@ public class GeneratorExtentReport {
 				String percentualDiff = infImagem[2];
 				String qtdTotalPixel = infImagem[3];
 				String qtdTotalPixelDiff = infImagem[4];
-				String srcImgA = "records\\" + recordExecution+"\\baseLine\\"+arquivoImagem;
-				String srcImgB = "records\\" + recordExecution+"\\imgsActualTest\\"+arquivoImagem;
-				String srcImgC = "records\\" + recordExecution+"\\ComparisonResults\\"+arquivoImagem;
+				String srcImgA = ManipulateFiles.getListString("nameDirReportRecords")+"\\" + recordExecution + "\\"+ManipulateFiles.getListString("nameDirBaseline")+"\\" + arquivoImagem;
+				String srcImgB = ManipulateFiles.getListString("nameDirReportRecords")+"\\" + recordExecution + "\\"+ManipulateFiles.getListString("nameDirActualTest")+"\\" + arquivoImagem;
+				String srcImgC = ManipulateFiles.getListString("nameDirReportRecords")+"\\" + recordExecution + "\\"+ManipulateFiles.getListString("nameDirComparisonResults")+"\\" + arquivoImagem;
 				boolean fail = false;
 
 				relatorio.startNewTest(recordExecution + " - " + arquivoImagem, nomeValidacao);
@@ -130,15 +132,18 @@ public class GeneratorExtentReport {
 
 				if (fail) {
 					relatorio.addLogTestFail(recordExecution + " - " + arquivoImagem,
-							"Image comparison - " + arquivoImagem,
-							"<b>Quantity pixels compared: </b>" + qtdTotalPixel + "<br><b>Quantity diff pixels: </b>"
-									+ qtdTotalPixelDiff + "<br><b>Percentage diff pixels: </b>" + percentualDiff+"<br>", srcImgA+";BaseLine", srcImgB+";Actual test", srcImgC+";Result comparison");
+							ManipulateFiles.getListString("testImgComparison")+" - " + arquivoImagem,
+							"<b>"+ManipulateFiles.getListString("testQtyPixelCompared")+": </b>" + qtdTotalPixel + "<br><b>"+ManipulateFiles.getListString("testQtyDiffPixel")+": </b>"
+									+ qtdTotalPixelDiff + "<br><b>"+ManipulateFiles.getListString("testPercDiffPixel")+": </b>" + percentualDiff
+									+ "<br>",
+							srcImgA + ";"+ManipulateFiles.getListString("descriptionImgA"), srcImgB + ";"+ManipulateFiles.getListString("descriptionImgB"), srcImgC + ";"+ManipulateFiles.getListString("descriptionImgC"));
 				} else {
 					relatorio.addLogTestPass(recordExecution + " - " + arquivoImagem,
-							"Image comparison - " + arquivoImagem,
-							"<b>Quantity pixels compared: </b>" + qtdTotalPixel + "<br><b>Quantity diff pixels: </b>"
-									+ qtdTotalPixelDiff + "<br><b>Percentage diff pixels: </b>" + percentualDiff+"<br>", srcImgA+";BaseLine", srcImgB+";Actual test", srcImgC+";Result comparison");
-
+							ManipulateFiles.getListString("testImgComparison")+" - " + arquivoImagem,
+							"<b>"+ManipulateFiles.getListString("testQtyPixelCompared")+": </b>" + qtdTotalPixel + "<br><b>"+ManipulateFiles.getListString("testQtyDiffPixel")+": </b>"
+									+ qtdTotalPixelDiff + "<br><b>"+ManipulateFiles.getListString("testPercDiffPixel")+": </b>" + percentualDiff
+									+ "<br>",
+							srcImgA + ";"+ManipulateFiles.getListString("descriptionImgA"), srcImgB + ";"+ManipulateFiles.getListString("descriptionImgB"), srcImgC + ";"+ManipulateFiles.getListString("descriptionImgC"));
 				}
 
 				relatorio.endTest(recordExecution + " - " + arquivoImagem);

@@ -31,7 +31,7 @@ public class Teste {
 
 		// Make API instance, set image path and gen report path
 		// and last a resolution to work.
-		Sentinela sentinela = new Sentinela(driver, "C:\\testRegression\\", "C:\\testeRegression\\report\\", 1920,
+		Sentinela sentinela = new Sentinela(driver, "C:\\sentinela\\testRegression\\", "C:\\sentinela\\testReport\\", 1920,
 				1080);
 
 		// Validate a webelements list

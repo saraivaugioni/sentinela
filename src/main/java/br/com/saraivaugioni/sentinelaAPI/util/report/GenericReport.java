@@ -1,6 +1,6 @@
 package br.com.saraivaugioni.sentinelaAPI.util.report;
 
-import java.nio.file.Path;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +8,8 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.NetworkMode;
+
+import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
 
 public class GenericReport {
 
@@ -23,12 +25,23 @@ public class GenericReport {
 	}
 
 	private void newReport() {
-		extent = new ExtentReports("target", NetworkMode.OFFLINE);
+		extent = new ExtentReports(ManipulateFiles.getListString("dirTarget"), NetworkMode.OFFLINE);
+		configReport();
 	}
 
 	private void newReport(String dirReport) {
-		extent = new ExtentReports(dirReport + "\\index.html", NetworkMode.OFFLINE);
+		extent = new ExtentReports(dirReport + "\\"+ManipulateFiles.getListString("reportIndex"), NetworkMode.OFFLINE);
+		configReport();
 	}
+	
+	private void configReport(){
+		ClassLoader classLoader = getClass().getClassLoader();
+		//Configuração usada pelo Maven, abre o arquivo no resource.
+		extent.loadConfig(new File(classLoader.getResource(ManipulateFiles.getListString("extentConfigFile")).getFile()));
+		//Configuração usada pelo .jar, abre o arquivo no disco(mesma pasta do .jar)
+		extent.loadConfig(new File(ManipulateFiles.getListString("extentConfigFile")));
+	}
+
 
 	public void startNewTest(String testName, String testDescription) {
 		ExtentTest test = extent.startTest(testName, testDescription);
@@ -68,7 +81,6 @@ public class GenericReport {
 					}catch(IndexOutOfBoundsException ex){
 						
 					}
-
 					listImgs += myTest.addScreenCapture(imgInfo[0]);
 				}
 				myTest.log(LogStatus.FAIL, stepName, details + listImgs);
@@ -121,7 +133,6 @@ public class GenericReport {
 					}
 					listImgs += myTest.addScreenCapture(imgInfo[0]);
 				}
-				System.out.println(listImgs);
 				myTest.log(LogStatus.PASS, stepName, details + listImgs);
 			}
 		}

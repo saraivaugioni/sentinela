@@ -122,7 +122,7 @@ public class CompareImages {
 		int height1 = img1.getHeight();
 		int height2 = img2.getHeight();
 		if ((width1 != width2) || (height1 != height2)) {
-			System.err.println("Erro: Imagens tem tamanho diferentes");
+			System.err.println(ManipulateFiles.getListString("erroImgDiffSize"));
 			System.exit(1);
 		}
 		// NEW - Create output Buffered image of type RGB
@@ -188,15 +188,15 @@ public class CompareImages {
 		BufferedImage img2 = null;
 		CompareImages comparator = new CompareImages();
 		try {
-			img1 = ImageIO.read(new File(sentinela.getPathBaseLine() + "\\" + imgName));
+			img1 = ImageIO.read(new File(sentinela.getBaseLinePath() + "\\" + imgName));
 			img2 = ImageIO.read(new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imgName));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		BufferedImage outImg = comparator.getDifferenceImage(img1, img2);
-		File outputfile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\Results\\" + imgName);
+		File outputfile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\"+ManipulateFiles.getListString("nameDirResults")+"\\" + imgName);
 		try {
-			ImageIO.write(outImg, "png", outputfile);
+			ImageIO.write(outImg, ManipulateFiles.getListString("imgExtension"), outputfile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
