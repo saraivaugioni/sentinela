@@ -120,8 +120,8 @@ public class GeneratorExtentReport {
 				String srcImgC = "records\\" + recordExecution+"\\ComparisonResults\\"+arquivoImagem;
 				boolean fail = false;
 
-				relatorio.startNewTest("Overview - " + recordExecution + " - " + arquivoImagem, nomeValidacao);
-				relatorio.addTagTest("Overview - " + recordExecution + " - " + arquivoImagem, recordExecution);
+				relatorio.startNewTest(recordExecution + " - " + arquivoImagem, nomeValidacao);
+				relatorio.addTagTest(recordExecution + " - " + arquivoImagem, recordExecution);
 				if (Integer.valueOf(qtdTotalPixelDiff) == 0) {
 					fail = false;
 				} else {
@@ -129,19 +129,19 @@ public class GeneratorExtentReport {
 				}
 
 				if (fail) {
-					relatorio.addLogTestFail("Overview - " + recordExecution + " - " + arquivoImagem,
+					relatorio.addLogTestFail(recordExecution + " - " + arquivoImagem,
 							"Image comparison - " + arquivoImagem,
 							"<b>Quantity pixels compared: </b>" + qtdTotalPixel + "<br><b>Quantity diff pixels: </b>"
 									+ qtdTotalPixelDiff + "<br><b>Percentage diff pixels: </b>" + percentualDiff, srcImgA, srcImgB, srcImgC);
 				} else {
-					relatorio.addLogTestPass("Overview - " + recordExecution + " - " + arquivoImagem,
+					relatorio.addLogTestPass(recordExecution + " - " + arquivoImagem,
 							"Image comparison - " + arquivoImagem,
 							"<b>Quantity pixels compared: </b>" + qtdTotalPixel + "<br><b>Quantity diff pixels: </b>"
 									+ qtdTotalPixelDiff + "<br><b>Percentage diff pixels: </b>" + percentualDiff, srcImgA, srcImgB, srcImgC);
 
 				}
 
-				relatorio.endTest("Overview - " + recordExecution + " - " + arquivoImagem);
+				relatorio.endTest(recordExecution + " - " + arquivoImagem);
 
 			}
 
