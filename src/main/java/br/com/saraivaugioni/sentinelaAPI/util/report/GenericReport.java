@@ -62,7 +62,14 @@ public class GenericReport {
 			if (myTest.getTest().getName().trim().equals(testName)) {
 				String listImgs = "";
 				for (String img : imageFile) {
-					listImgs += myTest.addScreenCapture(img);
+					String[] imgInfo = img.split(";");
+					try{
+						listImgs += "<br><b>"+imgInfo[1]+"</b>";
+					}catch(IndexOutOfBoundsException ex){
+						
+					}
+
+					listImgs += myTest.addScreenCapture(imgInfo[0]);
 				}
 				myTest.log(LogStatus.FAIL, stepName, details + listImgs);
 			}
@@ -106,8 +113,15 @@ public class GenericReport {
 			if (myTest.getTest().getName().trim().equals(testName)) {
 				String listImgs = "";
 				for (String img : imageFile) {
-					listImgs += myTest.addScreenCapture(img);
+					String[] imgInfo = img.split(";");
+					try{
+						listImgs += "<br><b>"+imgInfo[1]+"</b>";
+					}catch(IndexOutOfBoundsException ex){
+						
+					}
+					listImgs += myTest.addScreenCapture(imgInfo[0]);
 				}
+				System.out.println(listImgs);
 				myTest.log(LogStatus.PASS, stepName, details + listImgs);
 			}
 		}

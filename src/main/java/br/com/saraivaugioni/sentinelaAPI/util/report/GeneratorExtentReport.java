@@ -87,7 +87,7 @@ public class GeneratorExtentReport {
 				percentualImgDiferentes = (100 * qtdTelasDiferencas) / totalImgComparadas;
 			}
 
-			relatorio.addLogTestPass("Overview - " + recordExecution, "",
+			relatorio.addLogTestInfo("Overview - " + recordExecution, "",
 					"<b>Quantity pictures compared: </b>" + totalImgComparadas + "<br><b>Quantity diff pictures: </b>"
 							+ qtdTelasDiferencas + "<br><b>Percentage diff pictures: </b>" + percentualImgDiferentes
 							+ "<br><br><b>Quantity pixels compared: </b>" + totalPixelsComparados
@@ -132,12 +132,12 @@ public class GeneratorExtentReport {
 					relatorio.addLogTestFail(recordExecution + " - " + arquivoImagem,
 							"Image comparison - " + arquivoImagem,
 							"<b>Quantity pixels compared: </b>" + qtdTotalPixel + "<br><b>Quantity diff pixels: </b>"
-									+ qtdTotalPixelDiff + "<br><b>Percentage diff pixels: </b>" + percentualDiff, srcImgA, srcImgB, srcImgC);
+									+ qtdTotalPixelDiff + "<br><b>Percentage diff pixels: </b>" + percentualDiff+"<br>", srcImgA+";BaseLine", srcImgB+";Actual test", srcImgC+";Result comparison");
 				} else {
 					relatorio.addLogTestPass(recordExecution + " - " + arquivoImagem,
 							"Image comparison - " + arquivoImagem,
 							"<b>Quantity pixels compared: </b>" + qtdTotalPixel + "<br><b>Quantity diff pixels: </b>"
-									+ qtdTotalPixelDiff + "<br><b>Percentage diff pixels: </b>" + percentualDiff, srcImgA, srcImgB, srcImgC);
+									+ qtdTotalPixelDiff + "<br><b>Percentage diff pixels: </b>" + percentualDiff+"<br>", srcImgA+";BaseLine", srcImgB+";Actual test", srcImgC+";Result comparison");
 
 				}
 
