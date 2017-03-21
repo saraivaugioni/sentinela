@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.validation;
+package br.com.saraivaugioni.sentinela.validation;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
-import br.com.saraivaugioni.sentinelaAPI.main.Sentinela;
-import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
-import br.com.saraivaugioni.sentinelaAPI.util.images.CompareImages;
-import br.com.saraivaugioni.sentinelaAPI.util.images.PrintsScreen;
+import br.com.saraivaugioni.sentinela.main.Sentinela;
+import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinela.util.images.CompareImages;
+import br.com.saraivaugioni.sentinela.util.images.PrintsScreen;
 
 public class Validation {
 

@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.util.report;
+package br.com.saraivaugioni.sentinela.util.report;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
 
 public class PrepareExtentReportEnvironment {
 	private Path pathReport;

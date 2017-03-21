@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.util.images;
+package br.com.saraivaugioni.sentinela.util.images;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;

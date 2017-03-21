@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.main;
+package br.com.saraivaugioni.sentinela.main;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,9 +9,9 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
-import br.com.saraivaugioni.sentinelaAPI.util.report.GeneratorExtentReport;
-import br.com.saraivaugioni.sentinelaAPI.validation.Validation;
+import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinela.util.report.GeneratorExtentReport;
+import br.com.saraivaugioni.sentinela.validation.Validation;
 
 
 //tradução ok

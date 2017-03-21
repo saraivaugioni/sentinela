@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.util.images;
+package br.com.saraivaugioni.sentinela.util.images;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,8 +8,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import br.com.saraivaugioni.sentinelaAPI.main.Sentinela;
-import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinela.main.Sentinela;
+import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
 
 public class CompareImages {
 

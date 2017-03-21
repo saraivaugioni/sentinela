@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.util.images;
+package br.com.saraivaugioni.sentinela.util.images;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,7 +14,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
 
 public class PrintsScreen {
 	

@@ -1,0 +1,32 @@
+currentDateTimeFormat = dd-MM-yyyy HH-mm-ss
+nameDirBaseline = baseLine
+nameDirResults = Resultados
+nameDirActualTest = imgsTesteAtual
+nameDirComparisonResults = ResultadosComparacao
+nameDirReportRecords = historicos
+nameFileMetadata = metadados.ini
+imgExtension = png
+erroImgDiffSize = Erro: Imagens com tamanhos diferentes
+
+Tests
+testOverviewName = Resumo Geral
+testOverviewDescription = Informações do teste consolidadas
+testQtyDiffPictCompared = Quantidade de imagens comparadas
+testQtyDiffPict = Quantidade de imagens com diferenças
+testPercDiffPict = Percentual de imagens com diferenças
+testQtyPixelCompared = Quantidade de pixels comparados
+testQtyDiffPixel = Quantidade de pixels com diferenças
+testPercDiffPixel = Percentual de pixels com diferenças
+testImgComparison = Imagem comparada
+
+descriptionImgA = BaseLine
+descriptionImgB = Teste atual
+descriptionImgC = Resultado comparação
+
+Report
+dirTarget = target
+reportIndex = index.html
+extentConfigFile = extent-config_pt_BR.xml
+
+Validate
+imgComparePrefix = comparar

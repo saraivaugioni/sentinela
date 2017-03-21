@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.util.report;
+package br.com.saraivaugioni.sentinela.util.report;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.NetworkMode;
 
-import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
 
 public class GenericReport {
 

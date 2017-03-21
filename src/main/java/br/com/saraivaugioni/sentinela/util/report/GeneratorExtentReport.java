@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.util.report;
+package br.com.saraivaugioni.sentinela.util.report;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import br.com.saraivaugioni.sentinelaAPI.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
 
 public class GeneratorExtentReport {
 

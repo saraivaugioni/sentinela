@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import br.com.saraivaugioni.sentinelaAPI.main.Sentinela;
+import br.com.saraivaugioni.sentinela.main.Sentinela;
 
 public class Teste {
 
@@ -38,8 +38,8 @@ public class Teste {
 		sentinela.validate(elementosGoogle, "elementos_google");
 
 		// Validate a full page
-		campoBuscar.sendKeys("teste de ");
-		sentinela.validate("screen_google");
+		campoBuscar.sendKeys("11111teste de ");
+		sentinela.validate("screen_google", "validar a tela inicial do google, com objetivo de verificar a integridade do layout e demais componentes do super buscador");
 
 		// Gen final report
 		sentinela.generateReport();

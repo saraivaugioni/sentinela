@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.util.files;
+package br.com.saraivaugioni.sentinela.util.files;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -203,7 +203,8 @@ public class ManipulateFiles {
 		String valor = "";
 		ClassLoader classLoader = ManipulateFiles.class.getClassLoader();
 		try {
-			properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream("listStrings"),"UTF-8")));
+			//properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream("listStrings"),"UTF-8")));
+			properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream("listStrings_pt_BR"),"UTF-8")));
 			valor = properties.getProperty(stringName);
 		}catch(Exception ex){
 			valor = "";

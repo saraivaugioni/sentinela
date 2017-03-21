@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.saraivaugioni</groupId>
-	<artifactId>sentinelaAPI</artifactId>
+	<artifactId>sentinela</artifactId>
 	<version>1.2.0</version>
-	<name>sentinelaAPI</name>
+	<name>sentinela</name>
 	<description>A simple API that combined with WebDriver can perform visual regression test quickly and efficiently</description>
-	<url>https://github.com/saraivaugioni/sentinelaAPI</url>
+	<url>https://github.com/saraivaugioni/sentinela</url>
 	<inceptionYear>2016</inceptionYear>
 	<licenses>
 		<license>
@@ -27,10 +27,10 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git:git@github.com:saraivaugioni/sentinelaAPI.git</connection>
-		<developerConnection>scm:git:git@github.com:saraivaugioni/sentinelaAPI.git</developerConnection>
-		<url>git@github.com:saraivaugioni/sentinelaAPI.git</url>
-		<tag>sentinelaAPI-1.2.0</tag>
+		<connection>scm:git:git@github.com:saraivaugioni/sentinela.git</connection>
+		<developerConnection>scm:git:git@github.com:saraivaugioni/sentinela.git</developerConnection>
+		<url>git@github.com:saraivaugioni/sentinela.git</url>
+		<tag>sentinela-1.2.0</tag>
 	</scm>
 	<profiles>
 		<profile>

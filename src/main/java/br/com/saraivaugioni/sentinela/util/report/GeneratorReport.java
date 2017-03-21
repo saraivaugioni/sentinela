@@ -1,4 +1,4 @@
-package br.com.saraivaugioni.sentinelaAPI.util.report;
+package br.com.saraivaugioni.sentinela.util.report;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
