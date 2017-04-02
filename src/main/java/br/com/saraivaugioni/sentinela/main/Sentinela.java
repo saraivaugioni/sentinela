@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
+import br.com.saraivaugioni.sentinela.util.language.LanguageCodes;
 import br.com.saraivaugioni.sentinela.util.report.GeneratorExtentReport;
 import br.com.saraivaugioni.sentinela.validation.Validation;
 
@@ -30,6 +31,7 @@ public class Sentinela {
 	private boolean isEnabledValidation = true;
 	private boolean isBaseLineCreated = false;
 	private boolean isDiff = false;
+	public static LanguageCodes languageCode = LanguageCodes.EN_US;
 
 	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight,
 			String baseLineName) {
@@ -53,6 +55,49 @@ public class Sentinela {
 	}
 
 	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight) {
+		Path localPath = Paths.get(pathImgs);
+		Path localhPathReport = Paths.get(pathReport);
+		setImgsPath(localPath);
+		setReportPath(localhPathReport);
+		setDriverSelenium(driver);
+		// Set current base line as default value
+		setBaseLinePath(ManipulateFiles.getListString("nameDirBaseline"));
+		// Setup resolution
+		setWidthTela(imgWidth);
+		setImgHeight(imgHeight);
+		// Save current date time to be used as the historical test run
+		// Salva a data e hora atual para ser usada como histórico da nova
+		// bateria de execução
+		SimpleDateFormat currentDateTime = new SimpleDateFormat(ManipulateFiles.getListString("currentDateTimeFormat"));
+		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
+		// Prepara o ambiente
+		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
+	}
+	
+	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight,
+			String baseLineName, LanguageCodes lc) {
+		languageCode = lc;
+		Path localPath = Paths.get(pathImgs);
+		Path localhPathReport = Paths.get(pathReport);
+		setImgsPath(localPath);
+		setReportPath(localhPathReport);
+		setDriverSelenium(driver);
+		// Set current base line
+		setBaseLinePath(baseLineName);
+		// Setup resolution
+		setWidthTela(imgWidth);
+		setImgHeight(imgHeight);
+		// Save current date time to be used as the historical test run
+		// Salva a data e hora atual para ser usada como histórico da nova
+		// bateria de execução;
+		SimpleDateFormat currentDateTime = new SimpleDateFormat(ManipulateFiles.getListString("currentDateTimeFormat"));
+		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
+		// Prepara o ambiente
+		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
+	}
+	
+	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight, LanguageCodes lc) {
+		languageCode = lc;
 		Path localPath = Paths.get(pathImgs);
 		Path localhPathReport = Paths.get(pathReport);
 		setImgsPath(localPath);

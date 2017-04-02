@@ -7,8 +7,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
 
 public class PrepareExtentReportEnvironment {

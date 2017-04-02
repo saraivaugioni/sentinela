@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import br.com.saraivaugioni.sentinela.main.Sentinela;
+import br.com.saraivaugioni.sentinela.util.language.LanguageCodes;
 
 public class Teste {
 

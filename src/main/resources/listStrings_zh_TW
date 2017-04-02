@@ -1,0 +1,32 @@
+currentDateTimeFormat = yyyy-MM-dd HH-mm-ss
+nameDirBaseline = 基線
+nameDirResults = 結果
+nameDirActualTest = 圖像實際測試
+nameDirComparisonResults = 結果比較
+nameDirReportRecords = 檔案
+nameFileMetadata = metadados.ini
+imgExtension = png
+erroImgDiffSize = 故障圖片差異大小
+
+Tests
+testOverviewName = 概述
+testOverviewDescription = 綜合測試信息
+testQtyDiffPictCompared = 數量圖片比較
+testQtyDiffPict = 數量差異圖片
+testPercDiffPict = 百分比差異圖片
+testQtyPixelCompared = 數量像素比較
+testQtyDiffPixel = 數量差異像素
+testPercDiffPixel = 百分比差異像素
+testImgComparison = 圖像比較
+
+descriptionImgA = 基線
+descriptionImgB = 實際測試
+descriptionImgC = 結果比較
+
+Report
+dirTarget = 目標
+reportIndex = index.html
+extentConfigFile = extent-config_zh_TW.xml
+
+Validate
+imgComparePrefix = 比較

@@ -19,6 +19,9 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.common.collect.Lists;
 
+import br.com.saraivaugioni.sentinela.main.Sentinela;
+import br.com.saraivaugioni.sentinela.util.language.LanguageCodes;
+
 public class ManipulateFiles {
 
 	public static void removeFile(String fileFullName) {
@@ -202,9 +205,19 @@ public class ManipulateFiles {
 		Properties properties = new Properties();
 		String valor = "";
 		ClassLoader classLoader = ManipulateFiles.class.getClassLoader();
+		String prefixLanguageCode = "";
+		
+		if(Sentinela.languageCode==LanguageCodes.PT_BR){
+			prefixLanguageCode = "_pt_BR";
+		}else if(Sentinela.languageCode==LanguageCodes.ZH_TW){
+			prefixLanguageCode = "_zh_TW";
+		}
+		
+		String languageFile = "listStrings"+prefixLanguageCode;
+		
 		try {
-			//properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream("listStrings"),"UTF-8")));
-			properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream("listStrings_pt_BR"),"UTF-8")));
+			properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(languageFile),"UTF-8")));
+			//properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream("listStrings_pt_BR"),"UTF-8")));
 			valor = properties.getProperty(stringName);
 		}catch(Exception ex){
 			valor = "";
