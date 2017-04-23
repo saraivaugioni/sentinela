@@ -14,6 +14,113 @@ import br.com.saraivaugioni.sentinela.util.images.PrintsScreen;
 public class Validation {
 
 	/**
+	 * Validar layout de uma lista de elementos Recebe como parametro uma lista
+	 * de elementos do selenium. List<WebElement> e o nome da validação o método
+	 * cria as imagens baseada no nome de validação incrementando um contador
+	 * para cada imagem. Ex.: nomeValidação: elementosTelaMateriais elementos:
+	 * id_nomeMaterial, id_codigoMaterial Imagens que serão geradas:
+	 * elementosTelaMateriais1.png, elementosTelaMateriais2.png
+	 * 
+	 * @param elements
+	 * @param imageName
+	 */
+	public static void validate(Sentinela sentinela, List<WebElement> elements, String imageName) {
+		if (!sentinela.isEnabledValidation()) {
+			return;
+		}
+		int cx = 0;
+		for (WebElement element : elements) {
+			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
+			File printFile = null;
+
+			try {
+				printFile = PrintsScreen.printWebElement(element, sentinela.getDriverSelenium());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// Verifica se já existe arquivo para essa validação na baseline.
+			if (baseLineFile.exists()) {
+				// Verifica se o arquivo de comparação já existe. Se exisitr ele
+				// é removido.
+				File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
+						+ "\\"+ManipulateFiles.getListString("imgComparePrefix")+"_" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
+				if (comparisonFile.exists()) {
+					ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
+				}
+				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
+						"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName + cx,
+						sentinela.getElementsWidth(), sentinela.getElementsHeight());
+				// Compara print atual com print da base line
+				CompareImages.compare(sentinela,imageName + cx + "."+ManipulateFiles.getListString("imgExtension"), imageName);
+			}
+			// Se não existe, cria um print novo com prefixo
+			// original_+nomeValidacao.png
+			else {
+				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
+						"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName + cx,
+						sentinela.getElementsWidth(), sentinela.getElementsHeight());
+			}
+			cx++;
+		}
+	}
+
+	/**
+	 * Validar layout de uma lista de elementos Recebe como parametro uma lista
+	 * de elementos do selenium. List<WebElement> e o nome da validação o método
+	 * cria as imagens baseada no nome de validação incrementando um contador
+	 * para cada imagem. Ex.: nomeValidação: elementosTelaMateriais elementos:
+	 * id_nomeMaterial, id_codigoMaterial Imagens que serão geradas:
+	 * elementosTelaMateriais1.png, elementosTelaMateriais2.png
+	 * 
+	 * @param elements
+	 * @param imageName
+	 * @param testDetails
+	 */
+	public static void validate(Sentinela sentinela, List<WebElement> elements, String imageName, String testDetails) {
+		if (!sentinela.isEnabledValidation()) {
+			return;
+		}
+		int cx = 0;
+		for (WebElement element : elements) {
+			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
+			File printFile = null;
+
+			try {
+				printFile = PrintsScreen.printWebElement(element, sentinela.getDriverSelenium());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// Verifica se já existe arquivo para essa validação na baseline.
+			if (baseLineFile.exists()) {
+				// Verifica se o arquivo de comparação já existe. Se exisitr ele
+				// é removido.
+				File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
+						+ "\\"+ManipulateFiles.getListString("imgComparePrefix")+"_" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
+				if (comparisonFile.exists()) {
+					ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
+				}
+				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
+						"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName + cx,
+						sentinela.getElementsWidth(), sentinela.getElementsHeight());
+				// Compara print atual com print da base line
+				CompareImages.compare(sentinela,imageName + cx + "."+ManipulateFiles.getListString("imgExtension"), testDetails);
+			}
+			// Se não existe, cria um print novo com prefixo
+			// original_+nomeValidacao.png
+			else {
+				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
+						"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName + cx,
+						sentinela.getElementsWidth(), sentinela.getElementsHeight());
+			}
+			cx++;
+		}
+	}
+
+	/**
 	 * Valida o layout da janela inteira Recebe como parametro o nome da
 	 * validação O método cria as imagens baseada no nome da validação
 	 * 
@@ -183,113 +290,6 @@ public class Validation {
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
 					"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName,
 					sentinela.getElementsWidth(), sentinela.getElementsHeight());
-		}
-	}
-
-	/**
-	 * Validar layout de uma lista de elementos Recebe como parametro uma lista
-	 * de elementos do selenium. List<WebElement> e o nome da validação o método
-	 * cria as imagens baseada no nome de validação incrementando um contador
-	 * para cada imagem. Ex.: nomeValidação: elementosTelaMateriais elementos:
-	 * id_nomeMaterial, id_codigoMaterial Imagens que serão geradas:
-	 * elementosTelaMateriais1.png, elementosTelaMateriais2.png
-	 * 
-	 * @param elements
-	 * @param imageName
-	 */
-	public static void validate(Sentinela sentinela, List<WebElement> elements, String imageName) {
-		if (!sentinela.isEnabledValidation()) {
-			return;
-		}
-		int cx = 0;
-		for (WebElement element : elements) {
-			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
-			File printFile = null;
-
-			try {
-				printFile = PrintsScreen.printWebElement(element, sentinela.getDriverSelenium());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			// Verifica se já existe arquivo para essa validação na baseline.
-			if (baseLineFile.exists()) {
-				// Verifica se o arquivo de comparação já existe. Se exisitr ele
-				// é removido.
-				File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-						+ "\\"+ManipulateFiles.getListString("imgComparePrefix")+"_" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
-				if (comparisonFile.exists()) {
-					ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
-				}
-				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-						"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName + cx,
-						sentinela.getElementsWidth(), sentinela.getElementsHeight());
-				// Compara print atual com print da base line
-				CompareImages.compare(sentinela,imageName + cx + "."+ManipulateFiles.getListString("imgExtension"), imageName);
-			}
-			// Se não existe, cria um print novo com prefixo
-			// original_+nomeValidacao.png
-			else {
-				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-						"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName + cx,
-						sentinela.getElementsWidth(), sentinela.getElementsHeight());
-			}
-			cx++;
-		}
-	}
-
-	/**
-	 * Validar layout de uma lista de elementos Recebe como parametro uma lista
-	 * de elementos do selenium. List<WebElement> e o nome da validação o método
-	 * cria as imagens baseada no nome de validação incrementando um contador
-	 * para cada imagem. Ex.: nomeValidação: elementosTelaMateriais elementos:
-	 * id_nomeMaterial, id_codigoMaterial Imagens que serão geradas:
-	 * elementosTelaMateriais1.png, elementosTelaMateriais2.png
-	 * 
-	 * @param elements
-	 * @param imageName
-	 * @param testDetails
-	 */
-	public static void validate(Sentinela sentinela, List<WebElement> elements, String imageName, String testDetails) {
-		if (!sentinela.isEnabledValidation()) {
-			return;
-		}
-		int cx = 0;
-		for (WebElement element : elements) {
-			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
-			File printFile = null;
-
-			try {
-				printFile = PrintsScreen.printWebElement(element, sentinela.getDriverSelenium());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			// Verifica se já existe arquivo para essa validação na baseline.
-			if (baseLineFile.exists()) {
-				// Verifica se o arquivo de comparação já existe. Se exisitr ele
-				// é removido.
-				File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-						+ "\\"+ManipulateFiles.getListString("imgComparePrefix")+"_" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
-				if (comparisonFile.exists()) {
-					ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
-				}
-				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-						"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName + cx,
-						sentinela.getElementsWidth(), sentinela.getElementsHeight());
-				// Compara print atual com print da base line
-				CompareImages.compare(sentinela,imageName + cx + "."+ManipulateFiles.getListString("imgExtension"), testDetails);
-			}
-			// Se não existe, cria um print novo com prefixo
-			// original_+nomeValidacao.png
-			else {
-				PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-						"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName + cx,
-						sentinela.getElementsWidth(), sentinela.getElementsHeight());
-			}
-			cx++;
 		}
 	}
 
