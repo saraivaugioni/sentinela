@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.saraivaugioni</groupId>
 	<artifactId>sentinela</artifactId>
-	<version>1.2.0</version>
+	<version>2.0.0</version>
 	<name>sentinela</name>
 	<description>A simple API that combined with WebDriver can perform visual regression test quickly and efficiently</description>
 	<url>https://github.com/saraivaugioni/sentinela</url>
@@ -30,7 +30,7 @@
 		<connection>scm:git:git@github.com:saraivaugioni/sentinela.git</connection>
 		<developerConnection>scm:git:git@github.com:saraivaugioni/sentinela.git</developerConnection>
 		<url>git@github.com:saraivaugioni/sentinela.git</url>
-		<tag>sentinela-1.2.0</tag>
+		<tag>sentinela-2.0.0</tag>
 	</scm>
 	<profiles>
 		<profile>
