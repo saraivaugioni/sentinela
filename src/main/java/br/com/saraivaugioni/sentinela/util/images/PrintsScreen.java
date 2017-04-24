@@ -17,14 +17,14 @@ import org.openqa.selenium.WebElement;
 import br.com.saraivaugioni.sentinela.util.files.ManipulateFiles;
 
 public class PrintsScreen {
-	
+
 	// Janela completa
 	// Full window(browser)
 	public static File printWindowBrowser(WebDriver driver) {
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		return scrFile;
 	}
-	
+
 	// Elemento especifico
 	// print only a WebElement
 	public static File printWebElement(WebElement element, WebDriver driver) throws IOException {
@@ -43,9 +43,10 @@ public class PrintsScreen {
 		ImageIO.write(dest, ManipulateFiles.getListString("imgExtension"), scrFile);
 		return scrFile;
 	}
-	
-	public static void savePrint(Path imgPath, File tempFilePrintSelenium, String finalPrintName, int width, int height) {
-		String fileName = imgPath.toString() + finalPrintName + "."+ManipulateFiles.getListString("imgExtension");
+
+	public static void savePrint(Path imgPath, File tempFilePrintSelenium, String finalPrintName, int width,
+			int height) {
+		String fileName = imgPath.toString() + finalPrintName + "." + ManipulateFiles.getListString("imgExtension");
 		// Cria a imagem no disco.
 		try {
 			FileUtils.copyFile(tempFilePrintSelenium, new File(fileName), false);
@@ -62,5 +63,4 @@ public class PrintsScreen {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -11,6 +11,7 @@ import br.com.saraivaugioni.sentinela.main.Sentinela;
 public class Teste {
 
 	public static void main(String[] args) {
+
 		// Webdriver driver
 		System.setProperty("webdriver.gecko.driver", "driver\\geckodriver.exe");
 
@@ -18,13 +19,13 @@ public class Teste {
 
 		// Map webdriver elements
 		// Google
-		//Single elements
+		// Single elements
 		driver.get("https://www.google.com");
 		WebElement logoGoogle = driver.findElement(By.id("hplogo"));
 		WebElement buttonSearchGoogle = driver.findElement(By.name("btnK"));
 		WebElement fieldSearch = driver.findElement(By.id("lst-ib"));
-		
-		//List of welbelements
+
+		// List of welbelements
 		List<WebElement> googleElements = driver.findElements(By.className("list"));
 		googleElements.add(logoGoogle);
 		googleElements.add(buttonSearchGoogle);
@@ -34,28 +35,23 @@ public class Teste {
 
 		// Make API instance, set image path and gen report path
 		// and last a resolution to work.
-		Sentinela sentinela = new Sentinela(driver, "C:\\testRegression\\testImages", "C:\\testRegression\\testReport\\", 1920, 1080);
-		
+		Sentinela sentinela = new Sentinela(driver, "C:\\testRegression\\testImages",
+				"C:\\testRegression\\testReport\\", 1920, 1080);
+
 		// Validate a webelements list
 		sentinela.validate(googleElements, "elementsGoogle");
 
 		// Validate a full page
 		sentinela.validate("screen_google");
-		
+
 		// Validate a webelement
 		sentinela.validate(logoGoogle, "logo_google");
-		
+
 		// Gen final report
 		sentinela.generateReport();
-		
+
 		System.out.println(sentinela.isDiff());
-		
 		driver.quit();
-		
 		Assert.assertFalse(sentinela.isDiff());
-		
-
-
 	}
- 
 }

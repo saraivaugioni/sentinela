@@ -181,31 +181,33 @@ public class CompareImages {
 		// Now return
 		return outImg;
 	}
-	
-	
+
 	public static void compare(Sentinela sentinela, String imgName, String validationName) {
 		BufferedImage img1 = null;
 		BufferedImage img2 = null;
 		CompareImages comparator = new CompareImages();
 		try {
 			img1 = ImageIO.read(new File(sentinela.getBaseLinePath() + "\\" + imgName));
-			img2 = ImageIO.read(new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imgName));
+			img2 = ImageIO.read(new File(
+					sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imgName));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		BufferedImage outImg = comparator.getDifferenceImage(img1, img2);
-		File outputfile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\"+ManipulateFiles.getListString("nameDirResults")+"\\" + imgName);
+		File outputfile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent() + "\\"
+				+ ManipulateFiles.getListString("nameDirResults") + "\\" + imgName);
 		try {
 			ImageIO.write(outImg, ManipulateFiles.getListString("imgExtension"), outputfile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		ManipulateFiles.saveInfMetaData(sentinela.getImgsPath(),sentinela.getDateTimeExecutionCurrent(),validationName + ";" + imgName + ";" + comparator.getPercentualDiferencaUltimaImagem() + ";"
-				+ comparator.getQtdTotalPixelComparadosUltimaImagem() + ";"
-				+ comparator.getQtdPixelDiferentesUltimaImagem());
+		ManipulateFiles.saveInfMetaData(sentinela.getImgsPath(), sentinela.getDateTimeExecutionCurrent(),
+				validationName + ";" + imgName + ";" + comparator.getPercentualDiferencaUltimaImagem() + ";"
+						+ comparator.getQtdTotalPixelComparadosUltimaImagem() + ";"
+						+ comparator.getQtdPixelDiferentesUltimaImagem());
 		sentinela.setDiff(comparator.isDiff());
 	}
-	
+
 	public static double compare(File img1, File img2) {
 		BufferedImage bfImg1 = null;
 		BufferedImage bfImg2 = null;
@@ -219,8 +221,6 @@ public class CompareImages {
 		comparator.getDifferenceImage(bfImg1, bfImg2);
 		return comparator.getPercentualDiferencaUltimaImagem();
 	}
-
-
 
 	public List<String> getPixelsDiferencas() {
 		return pixelsDiferencas;

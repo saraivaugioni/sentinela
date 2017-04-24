@@ -30,22 +30,21 @@ public class Validation {
 		}
 		int cx = 0;
 		for (WebElement element : elements) {
-			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
+			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."
+					+ ManipulateFiles.getListString("imgExtension"));
 			File printFile = null;
-
 			try {
 				printFile = PrintsScreen.printWebElement(element, sentinela.getDriverSelenium());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 			// Verifica se já existe arquivo para essa validação na baseline.
 			if (baseLineFile.exists()) {
 				// Verifica se o arquivo de comparação já existe. Se exisitr ele
 				// é removido.
 				File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-						+ "\\"+ManipulateFiles.getListString("imgComparePrefix")+"_" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
+						+ "\\" + ManipulateFiles.getListString("imgComparePrefix") + "_" + imageName + cx + "."
+						+ ManipulateFiles.getListString("imgExtension"));
 				if (comparisonFile.exists()) {
 					ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 				}
@@ -53,7 +52,8 @@ public class Validation {
 						"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName + cx,
 						sentinela.getElementsWidth(), sentinela.getElementsHeight());
 				// Compara print atual com print da base line
-				CompareImages.compare(sentinela,imageName + cx + "."+ManipulateFiles.getListString("imgExtension"), imageName);
+				CompareImages.compare(sentinela, imageName + cx + "." + ManipulateFiles.getListString("imgExtension"),
+						imageName);
 			}
 			// Se não existe, cria um print novo com prefixo
 			// original_+nomeValidacao.png
@@ -84,22 +84,21 @@ public class Validation {
 		}
 		int cx = 0;
 		for (WebElement element : elements) {
-			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
+			File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + cx + "."
+					+ ManipulateFiles.getListString("imgExtension"));
 			File printFile = null;
-
 			try {
 				printFile = PrintsScreen.printWebElement(element, sentinela.getDriverSelenium());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 			// Verifica se já existe arquivo para essa validação na baseline.
 			if (baseLineFile.exists()) {
 				// Verifica se o arquivo de comparação já existe. Se exisitr ele
 				// é removido.
 				File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-						+ "\\"+ManipulateFiles.getListString("imgComparePrefix")+"_" + imageName + cx + "."+ManipulateFiles.getListString("imgExtension"));
+						+ "\\" + ManipulateFiles.getListString("imgComparePrefix") + "_" + imageName + cx + "."
+						+ ManipulateFiles.getListString("imgExtension"));
 				if (comparisonFile.exists()) {
 					ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 				}
@@ -107,7 +106,8 @@ public class Validation {
 						"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName + cx,
 						sentinela.getElementsWidth(), sentinela.getElementsHeight());
 				// Compara print atual com print da base line
-				CompareImages.compare(sentinela,imageName + cx + "."+ManipulateFiles.getListString("imgExtension"), testDetails);
+				CompareImages.compare(sentinela, imageName + cx + "." + ManipulateFiles.getListString("imgExtension"),
+						testDetails);
 			}
 			// Se não existe, cria um print novo com prefixo
 			// original_+nomeValidacao.png
@@ -130,10 +130,9 @@ public class Validation {
 		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
-
-		File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
+		File baseLineFile = new File(
+				sentinela.getBaseLinePath() + "\\" + imageName + "." + ManipulateFiles.getListString("imgExtension"));
 		File printFile = PrintsScreen.printWindowBrowser(sentinela.getDriverSelenium());
-
 		// Verifica se já existe arquivo para essa validação na baseline.
 		// Check if file exits for this validation in baseline.
 		if (baseLineFile.exists()) {
@@ -141,7 +140,7 @@ public class Validation {
 			// removido.
 			// Check if comparation file exists. If true it is removed.
 			File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-					+ "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
+					+ "\\" + imageName + "." + ManipulateFiles.getListString("imgExtension"));
 			if (comparisonFile.exists()) {
 				ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 			}
@@ -152,7 +151,8 @@ public class Validation {
 					sentinela.getImgHeight());
 			// Compara print atual com print da base line
 			// Compare actual print with baseline print.
-			CompareImages.compare(sentinela, imageName + "."+ManipulateFiles.getListString("imgExtension"), imageName);
+			CompareImages.compare(sentinela, imageName + "." + ManipulateFiles.getListString("imgExtension"),
+					imageName);
 		}
 		// Se não existe, cria um print novo na base line
 		// If dont exists, make new print in baseline.
@@ -174,14 +174,15 @@ public class Validation {
 		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
-		File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
+		File baseLineFile = new File(
+				sentinela.getBaseLinePath() + "\\" + imageName + "." + ManipulateFiles.getListString("imgExtension"));
 		File printFile = PrintsScreen.printWindowBrowser(sentinela.getDriverSelenium());
 		// Verifica se já existe arquivo para essa validação na baseline.
 		if (baseLineFile.exists()) {
 			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
 			// removido.
 			File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-					+ "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
+					+ "\\" + imageName + "." + ManipulateFiles.getListString("imgExtension"));
 			if (comparisonFile.exists()) {
 				ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 			}
@@ -190,7 +191,8 @@ public class Validation {
 					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName, sentinela.getImgWidth(),
 					sentinela.getImgHeight());
 			// Compara print atual com print da base line
-			CompareImages.compare(sentinela,imageName + "."+ManipulateFiles.getListString("imgExtension"), testDetails);
+			CompareImages.compare(sentinela, imageName + "." + ManipulateFiles.getListString("imgExtension"),
+					testDetails);
 		}
 		// Se não existe, cria um print novo
 		else {
@@ -213,22 +215,20 @@ public class Validation {
 		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
-		File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
+		File baseLineFile = new File(
+				sentinela.getBaseLinePath() + "\\" + imageName + "." + ManipulateFiles.getListString("imgExtension"));
 		File printFile = null;
-
 		try {
 			printFile = PrintsScreen.printWebElement(element, sentinela.getDriverSelenium());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		// Verifica se já existe arquivo para essa validação na baseline.
 		if (baseLineFile.exists()) {
 			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
 			// removido.
 			File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-					+ "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
+					+ "\\" + imageName + "." + ManipulateFiles.getListString("imgExtension"));
 			if (comparisonFile.exists()) {
 				ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 			}
@@ -236,7 +236,8 @@ public class Validation {
 					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName, sentinela.getElementsWidth(),
 					sentinela.getElementsHeight());
 			// Compara print atual com print da base line
-			CompareImages.compare(sentinela,imageName + "."+ManipulateFiles.getListString("imgExtension"), imageName);
+			CompareImages.compare(sentinela, imageName + "." + ManipulateFiles.getListString("imgExtension"),
+					imageName);
 		}
 		// Se não existe, cria um print novo com prefixo
 		else {
@@ -260,37 +261,35 @@ public class Validation {
 		if (!sentinela.isEnabledValidation()) {
 			return;
 		}
-		File baseLineFile = new File(sentinela.getBaseLinePath() + "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
+		File baseLineFile = new File(
+				sentinela.getBaseLinePath() + "\\" + imageName + "." + ManipulateFiles.getListString("imgExtension"));
 		File printFile = null;
-
 		try {
 			printFile = PrintsScreen.printWebElement(element, sentinela.getDriverSelenium());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		// Verifica se já existe arquivo para essa validação na baseline.
 		if (baseLineFile.exists()) {
 			// Verifica se o arquivo de comparação já existe. Se exisitr ele é
 			// removido.
 			File comparisonFile = new File(sentinela.getImgsPath() + "\\" + sentinela.getDateTimeExecutionCurrent()
-					+ "\\" + imageName + "."+ManipulateFiles.getListString("imgExtension"));
+					+ "\\" + imageName + "." + ManipulateFiles.getListString("imgExtension"));
 			if (comparisonFile.exists()) {
 				ManipulateFiles.removeFile(comparisonFile.getAbsolutePath());
 			}
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName,
-					sentinela.getElementsWidth(), sentinela.getElementsHeight());
+					"\\" + sentinela.getDateTimeExecutionCurrent() + "\\" + imageName, sentinela.getElementsWidth(),
+					sentinela.getElementsHeight());
 			// Compara print atual com print da base line
-			CompareImages.compare(sentinela,imageName + "."+ManipulateFiles.getListString("imgExtension"), testDetails);
+			CompareImages.compare(sentinela, imageName + "." + ManipulateFiles.getListString("imgExtension"),
+					testDetails);
 		}
 		// Se não existe, cria um print novo com prefixo
 		else {
 			PrintsScreen.savePrint(sentinela.getImgsPath(), printFile,
-					"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName,
-					sentinela.getElementsWidth(), sentinela.getElementsHeight());
+					"\\" + sentinela.getBaseLinePath().getFileName() + "\\" + imageName, sentinela.getElementsWidth(),
+					sentinela.getElementsHeight());
 		}
 	}
-
 }

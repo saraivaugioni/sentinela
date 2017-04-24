@@ -14,8 +14,7 @@ import br.com.saraivaugioni.sentinela.util.language.LanguageCodes;
 import br.com.saraivaugioni.sentinela.util.report.GeneratorExtentReport;
 import br.com.saraivaugioni.sentinela.validation.Validation;
 
-
-//tradução ok
+// tradução ok
 
 public class Sentinela {
 
@@ -54,10 +53,12 @@ public class Sentinela {
 		SimpleDateFormat currentDateTime = new SimpleDateFormat(ManipulateFiles.getListString("currentDateTimeFormat"));
 		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
 		// Prepara o ambiente
-		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
+		setBaseLineCreated(
+				ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
 	}
-	
-	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight, LanguageCodes lc) {
+
+	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight,
+			LanguageCodes lc) {
 		languageCode = lc;
 		Path localPath = Paths.get(pathImgs);
 		Path localhPathReport = Paths.get(pathReport);
@@ -75,9 +76,10 @@ public class Sentinela {
 		SimpleDateFormat currentDateTime = new SimpleDateFormat(ManipulateFiles.getListString("currentDateTimeFormat"));
 		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
 		// Prepara o ambiente
-		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
+		setBaseLineCreated(
+				ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
 	}
-	
+
 	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight,
 			String baseLineName) {
 		Path localPath = Paths.get(pathImgs);
@@ -96,7 +98,8 @@ public class Sentinela {
 		SimpleDateFormat currentDateTime = new SimpleDateFormat(ManipulateFiles.getListString("currentDateTimeFormat"));
 		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
 		// Prepara o ambiente
-		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
+		setBaseLineCreated(
+				ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
 	}
 
 	public Sentinela(WebDriver driver, String pathImgs, String pathReport, int imgWidth, int imgHeight,
@@ -118,9 +121,9 @@ public class Sentinela {
 		SimpleDateFormat currentDateTime = new SimpleDateFormat(ManipulateFiles.getListString("currentDateTimeFormat"));
 		setDateTimeExecutionCurrent(currentDateTime.format(new Date()));
 		// Prepara o ambiente
-		setBaseLineCreated(ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
+		setBaseLineCreated(
+				ManipulateFiles.prepareEnvironment(getBaseLinePath(), getImgsPath(), getDateTimeExecutionCurrent()));
 	}
-
 
 	public void generateReport() {
 		GeneratorExtentReport generatorExtentReport;
@@ -128,12 +131,13 @@ public class Sentinela {
 			return;
 		}
 		if (!isBaseLineCreated) {
-			generatorExtentReport = new GeneratorExtentReport(getReportPath().toString(), getImgsPath() + "\\", getBaseLinePath() + "\\");
+			generatorExtentReport = new GeneratorExtentReport(getReportPath().toString(), getImgsPath() + "\\",
+					getBaseLinePath() + "\\");
 			generatorExtentReport.generateReport();
-			//new GeneratorReport(getPathRelatorio().toString(), getImgsPath() + "\\", getPathBaseLine() + "\\");
+			// new GeneratorReport(getPathRelatorio().toString(), getImgsPath()
+			// + "\\", getPathBaseLine() + "\\");
 		}
 	}
-
 
 	public Path getBaseLinePath() {
 		return baseLinePath;
@@ -196,8 +200,8 @@ public class Sentinela {
 	}
 
 	public void setDiff(boolean isDiff) {
-		if(!this.isDiff){
-			this.isDiff = isDiff;			
+		if (!this.isDiff) {
+			this.isDiff = isDiff;
 		}
 	}
 
@@ -311,5 +315,4 @@ public class Sentinela {
 	public void validate(WebElement element, String imageName, String testDetails) {
 		Validation.validate(this, element, imageName, testDetails);
 	}
-	
 }

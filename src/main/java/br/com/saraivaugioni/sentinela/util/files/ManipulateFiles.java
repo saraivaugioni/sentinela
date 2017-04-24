@@ -38,8 +38,8 @@ public class ManipulateFiles {
 	public static void saveInfMetaData(Path pathImg, String dateTimeExecutionCurrent, String inf) {
 		BufferedWriter out = null;
 		try {
-			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\"+getListString("nameDirResults")+"\\"+getListString("nameFileMetadata"),
-					true);
+			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\"
+					+ getListString("nameDirResults") + "\\" + getListString("nameFileMetadata"), true);
 			out = new BufferedWriter(fstream);
 			out.write(inf + "\n");
 			out.close();
@@ -52,8 +52,8 @@ public class ManipulateFiles {
 	public static void saveHeadMetaData(Path pathImg, String dateTimeExecutionCurrent, String head) {
 		BufferedWriter out = null;
 		try {
-			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\"+getListString("nameDirResults")+"\\"+getListString("nameFileMetadata"),
-					true);
+			FileWriter fstream = new FileWriter(pathImg + "\\" + dateTimeExecutionCurrent + "\\"
+					+ getListString("nameDirResults") + "\\" + getListString("nameFileMetadata"), true);
 			out = new BufferedWriter(fstream);
 			out.write(head + "\n");
 			out.close();
@@ -67,7 +67,7 @@ public class ManipulateFiles {
 			String dateTimeExecutionCurrent) {
 		Path dirBaseLine = directoryBaseLine;
 		Path dirComparison = Paths.get(directoryImgPath + "\\" + dateTimeExecutionCurrent);
-		Path dirComparisonResults = Paths.get(dirComparison + "\\"+ManipulateFiles.getListString("nameDirResults"));
+		Path dirComparisonResults = Paths.get(dirComparison + "\\" + ManipulateFiles.getListString("nameDirResults"));
 		// Se o diretório do baseLine não existir, ele é criado.
 		if (!Files.exists(dirBaseLine)) {
 			File fdiretoriobaseLine = new File(dirBaseLine.toString());
@@ -87,7 +87,7 @@ public class ManipulateFiles {
 	}
 
 	public static List<String> lerInformacoesMetaDados(Path record) {
-		File metadados = new File(record + "\\"+getListString("nameFileMetadata"));
+		File metadados = new File(record + "\\" + getListString("nameFileMetadata"));
 		BufferedReader reader = null;
 		List<String> informacoesImagens = new ArrayList<String>();
 		try {
@@ -135,8 +135,8 @@ public class ManipulateFiles {
 		for (File fileHistory : fList) {
 			if (fileHistory.isFile()) {
 				try {
-					FileUtils.copyFile(fileHistory,
-							new File(fHistoryLocalReport + "\\"+getListString("nameDirActualTest")+"\\" + fileHistory.getName()));
+					FileUtils.copyFile(fileHistory, new File(fHistoryLocalReport + "\\"
+							+ getListString("nameDirActualTest") + "\\" + fileHistory.getName()));
 				} catch (IOException e) {
 					e.getMessage();
 				}
@@ -145,18 +145,19 @@ public class ManipulateFiles {
 	}
 
 	public static void copyFilesResultsComparedToRecords(File fHistoryLocal, File fHistoryLocalReport) {
-		File dirResultImgs = new File(fHistoryLocal.toString() + "\\"+getListString("nameDirResults")+"\\");
+		File dirResultImgs = new File(fHistoryLocal.toString() + "\\" + getListString("nameDirResults") + "\\");
 		File[] fList = dirResultImgs.listFiles();
 		// Copia todos os arquivos da pasta de Resultados: que foram gerados
 		// pela comparação.
 		for (File arquivo : fList) {
 			if (arquivo.isFile()) {
 				try {
-					if (arquivo.getName().trim().toUpperCase().equals(getListString("nameFileMetadata").trim().toUpperCase())) {
+					if (arquivo.getName().trim().toUpperCase()
+							.equals(getListString("nameFileMetadata").trim().toUpperCase())) {
 						FileUtils.copyFile(arquivo, new File(fHistoryLocalReport + "\\" + arquivo.getName()));
 					} else {
-						FileUtils.copyFile(arquivo,
-								new File(fHistoryLocalReport + "\\"+getListString("nameDirComparisonResults")+"\\" + arquivo.getName()));
+						FileUtils.copyFile(arquivo, new File(fHistoryLocalReport + "\\"
+								+ getListString("nameDirComparisonResults") + "\\" + arquivo.getName()));
 					}
 				} catch (IOException e) {
 					e.getMessage();
@@ -183,15 +184,16 @@ public class ManipulateFiles {
 	}
 
 	private static boolean isRecord(String dirName) {
-		if (Files.exists(Paths.get(dirName + "\\"+getListString("nameDirResults")+"\\"+getListString("nameFileMetadata")))) {
+		if (Files.exists(Paths
+				.get(dirName + "\\" + getListString("nameDirResults") + "\\" + getListString("nameFileMetadata")))) {
 			return true;
 		}
 		return false;
 	}
 
 	private static boolean validateTimeLineRecords(File localRecord) {
-		Path metaDadosFilePath = Paths.get(localRecord + "\\"+getListString("nameDirResults")+"\\");
-		if (!Files.exists(Paths.get(metaDadosFilePath + "\\"+getListString("nameFileMetadata")))) {
+		Path metaDadosFilePath = Paths.get(localRecord + "\\" + getListString("nameDirResults") + "\\");
+		if (!Files.exists(Paths.get(metaDadosFilePath + "\\" + getListString("nameFileMetadata")))) {
 			return false;
 		}
 		List<String> infMetaDados = ManipulateFiles.lerInformacoesMetaDados(metaDadosFilePath);
@@ -200,29 +202,27 @@ public class ManipulateFiles {
 		}
 		return true;
 	}
-	
+
 	public static String getListString(String stringName) {
 		Properties properties = new Properties();
 		String valor = "";
 		ClassLoader classLoader = ManipulateFiles.class.getClassLoader();
 		String prefixLanguageCode = "";
-		
-		if(Sentinela.languageCode==LanguageCodes.PT_BR){
+		if (Sentinela.languageCode == LanguageCodes.PT_BR) {
 			prefixLanguageCode = "_pt_BR";
-		}else if(Sentinela.languageCode==LanguageCodes.ZH_TW){
+		} else if (Sentinela.languageCode == LanguageCodes.ZH_TW) {
 			prefixLanguageCode = "_zh_TW";
 		}
-		
-		String languageFile = "listStrings"+prefixLanguageCode;
-		
+		String languageFile = "listStrings" + prefixLanguageCode;
 		try {
-			properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(languageFile),"UTF-8")));
-			//properties.load(new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream("listStrings_pt_BR"),"UTF-8")));
+			properties.load(
+					new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(languageFile), "UTF-8")));
+			// properties.load(new BufferedReader(new
+			// InputStreamReader(classLoader.getResourceAsStream("listStrings_pt_BR"),"UTF-8")));
 			valor = properties.getProperty(stringName);
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			valor = "";
 		}
 		return valor;
 	}
-
 }

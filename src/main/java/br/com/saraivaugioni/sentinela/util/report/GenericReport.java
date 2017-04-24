@@ -30,18 +30,20 @@ public class GenericReport {
 	}
 
 	private void newReport(String dirReport) {
-		extent = new ExtentReports(dirReport + "\\"+ManipulateFiles.getListString("reportIndex"), NetworkMode.OFFLINE);
+		extent = new ExtentReports(dirReport + "\\" + ManipulateFiles.getListString("reportIndex"),
+				NetworkMode.OFFLINE);
 		configReport();
 	}
-	
-	private void configReport(){
+
+	private void configReport() {
 		ClassLoader classLoader = getClass().getClassLoader();
-		//Configuração usada pelo Maven, abre o arquivo no resource.
-		extent.loadConfig(new File(classLoader.getResource(ManipulateFiles.getListString("extentConfigFile")).getFile()));
-		//Configuração usada pelo .jar, abre o arquivo no disco(mesma pasta do .jar)
+		// Configuração usada pelo Maven, abre o arquivo no resource.
+		extent.loadConfig(
+				new File(classLoader.getResource(ManipulateFiles.getListString("extentConfigFile")).getFile()));
+		// Configuração usada pelo .jar, abre o arquivo no disco(mesma pasta do
+		// .jar)
 		extent.loadConfig(new File(ManipulateFiles.getListString("extentConfigFile")));
 	}
-
 
 	public void startNewTest(String testName, String testDescription) {
 		ExtentTest test = extent.startTest(testName, testDescription);
@@ -76,10 +78,9 @@ public class GenericReport {
 				String listImgs = "";
 				for (String img : imageFile) {
 					String[] imgInfo = img.split(";");
-					try{
-						listImgs += "<br><b>"+imgInfo[1]+"</b>";
-					}catch(IndexOutOfBoundsException ex){
-						
+					try {
+						listImgs += "<br><b>" + imgInfo[1] + "</b>";
+					} catch (IndexOutOfBoundsException ex) {
 					}
 					listImgs += myTest.addScreenCapture(imgInfo[0]);
 				}
@@ -126,10 +127,9 @@ public class GenericReport {
 				String listImgs = "";
 				for (String img : imageFile) {
 					String[] imgInfo = img.split(";");
-					try{
-						listImgs += "<br><b>"+imgInfo[1]+"</b>";
-					}catch(IndexOutOfBoundsException ex){
-						
+					try {
+						listImgs += "<br><b>" + imgInfo[1] + "</b>";
+					} catch (IndexOutOfBoundsException ex) {
 					}
 					listImgs += myTest.addScreenCapture(imgInfo[0]);
 				}
@@ -137,7 +137,7 @@ public class GenericReport {
 			}
 		}
 	}
-	
+
 	public void addLogTestPass(String testName, String stepName, String details) {
 		for (ExtentTest myTest : myTests) {
 			if (myTest.getTest().getName().trim().equals(testName)) {
@@ -175,5 +175,4 @@ public class GenericReport {
 			extent.flush();
 		}
 	}
-
 }
